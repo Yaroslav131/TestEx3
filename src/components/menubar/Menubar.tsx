@@ -29,7 +29,9 @@ export default function MenuBar() {
             </div>
             <div className="container user-container">
                 <button className="menu-button sing-button">
+                <div className="img-container"> 
                     <img src={singOut} className="user-img" alt="" />
+                    </div>
                 </button></div>
         </menu>
     )
