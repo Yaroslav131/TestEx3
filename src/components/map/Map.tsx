@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const MapComponent = () => {
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
-  const [userHeading, setUserHeading] = useState<number | null>(null);
+  // const [userHeading, setUserHeading] = useState<number | null>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -36,7 +36,7 @@ const MapComponent = () => {
     const { alpha } = event;
     if (alpha !== null) {
       const heading = 360 - alpha;
-      setUserHeading(heading);
+      // setUserHeading(heading);
     }
   };
 
