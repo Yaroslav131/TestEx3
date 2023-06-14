@@ -35,7 +35,7 @@ const MapComponent = () => {
   const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
     const { alpha } = event;
     if (alpha !== null) {
-      const heading = 360 - alpha;
+     // const heading = 360 - alpha;
       // setUserHeading(heading);
     }
   };
