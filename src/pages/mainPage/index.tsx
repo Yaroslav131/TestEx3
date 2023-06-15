@@ -1,6 +1,7 @@
-import MapComponent from '../map/Map'
-import MenuBar from '../menubar/Menubar'
-import './mainPage.css'
+import MapComponent from '../../components/map'
+import MenuBar from '../../components/menuBar'
+
+import './styles.css'
 
 function MainPage() {
     return (

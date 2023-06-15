@@ -1,9 +1,9 @@
-import './menubar.css'
-import logo from "../../assets/icons/logo.svg"
-import save from "../../assets/save.svg"
-import search from "../../assets/search.svg"
-import singOut from "../../assets/singOut.svg"
+import logo from "../../assets/imgs/logo.svg"
+import save from "../../assets/imgs/save.svg"
+import search from "../../assets/imgs/search.svg"
+import singOut from "../../assets/imgs/singOut.svg"
 
+import './styles.css'
 
 export default function MenuBar() {
     return (
@@ -14,25 +14,26 @@ export default function MenuBar() {
                 </div>
                 <div className="container">
                     <button className="menu-button search-button">
-                        <div className="img-container"> 
-                        <img src={search} className="menu-img" alt="" />
+                        <div className="img-container">
+                            <img src={search} className="menu-img" alt="" />
                         </div>
                     </button>
                 </div>
                 <div className="container">
                     <button className="menu-button saved-button">
-                    <div className="img-container"> 
-                        <img src={save} className="menu-img" alt="" />
+                        <div className="img-container">
+                            <img src={save} className="menu-img" alt="" />
                         </div>
                     </button>
                 </div>
             </div>
             <div className="container user-container">
                 <button className="menu-button sing-button">
-                <div className="img-container"> 
-                    <img src={singOut} className="user-img" alt="" />
+                    <div className="img-container">
+                        <img src={singOut} className="user-img" alt="" />
                     </div>
-                </button></div>
+                </button>
+            </div>
         </menu>
     )
 }

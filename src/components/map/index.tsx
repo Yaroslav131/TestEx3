@@ -1,6 +1,6 @@
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import './map.css'
 import { useEffect, useState } from 'react';
+import './styles.css'
 
 const MapComponent = () => {
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
@@ -35,7 +35,7 @@ const MapComponent = () => {
   const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
     const { alpha } = event;
     if (alpha !== null) {
-     // const heading = 360 - alpha;
+      // const heading = 360 - alpha;
       // setUserHeading(heading);
     }
   };
@@ -44,7 +44,8 @@ const MapComponent = () => {
   return (
     <YMaps>
       <div className={"map-container"}>
-        <Map defaultState={{ center: userCoords!, zoom: 15 }} width="100%" height="100%">
+        <Map defaultState={{ center: userCoords!, zoom: 15 }}
+          width="100%" height="100%">
           {userCoords && <Placemark geometry={userCoords} />}
         </Map>
       </div>
