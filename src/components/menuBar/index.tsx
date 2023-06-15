@@ -1,4 +1,4 @@
-import logo from "../../assets/icons/logo.svg"
+import logo from "../../assets/logo.svg"
 import save from "../../assets/save.svg"
 import search from "../../assets/search.svg"
 import singOut from "../../assets/singOut.svg"
