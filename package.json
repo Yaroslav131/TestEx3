@@ -12,6 +12,7 @@
   "dependencies": {
     "@pbe/react-yandex-maps": "^1.2.4",
     "@react-google-maps/api": "^2.18.1",
+    "dotenv": "^16.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
