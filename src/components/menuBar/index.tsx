@@ -1,7 +1,7 @@
-import logo from "../../assets/logo.svg"
-import save from "../../assets/save.svg"
-import search from "../../assets/search.svg"
-import singOut from "../../assets/singOut.svg"
+import logo from "../../assets/imgs/logo.svg"
+import save from "../../assetsimgs//save.svg"
+import search from "../../assets/imgs/search.svg"
+import singOut from "../../assets/imgs/singOut.svg"
 
 import './styles.css'
 
