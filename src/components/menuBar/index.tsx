@@ -1,5 +1,5 @@
 import logo from "../../assets/imgs/logo.svg"
-import save from "../../assetsimgs//save.svg"
+import save from "../../assets/imgs/save.svg"
 import search from "../../assets/imgs/search.svg"
 import singOut from "../../assets/imgs/singOut.svg"
 
