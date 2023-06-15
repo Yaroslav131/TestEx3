@@ -1,5 +1,6 @@
-import './App.css'
-import MainPage from './components/main-page/MainPage'
+import './globalStyles.css'
+
+import MainPage from './pages/mainPage'
 
 function App() {
   return (
