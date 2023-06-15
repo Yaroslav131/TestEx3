@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 25px;
-
+    padding: 20px;
+    padding-top: 10px;
     border-right: rgb(164, 156, 156);
     border-right-width: 1px;
     border-right-style: solid;
@@ -23,7 +23,7 @@
 
 .top-button-container> div
 {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 .container {
     width: 60px;
@@ -37,6 +37,7 @@
     width: 50px;
     height: 50px;
     cursor:pointer;
+    border-radius: 5px;
 }
 
 .menu-button:hover
@@ -52,19 +53,19 @@
 .search-button {
     background-color: #5E7BC7;
     border: none;
-    border-radius: 10px;
+   
 }
 
 .saved-button {
     background-color: white;
-    border-radius: 10px;
+ 
     border-color: rgb(181, 176, 176);
     border-width: 5px;
     border-style: solid;
 }
 
 .sing-button {
-    border-radius: 10px;
+    
     border: none;
     background-color: #808080;
 }
