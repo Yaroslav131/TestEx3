@@ -1,6 +1,6 @@
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
-import './map.css'
+import './styles.css'
 
 const MapComponent = () => {
   const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
