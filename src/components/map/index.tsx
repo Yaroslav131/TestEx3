@@ -1,22 +1,21 @@
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-//import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-//import { getUserGeolocation } from '../../api/browserApi';
+import { getUserGeolocation } from '../../api/browserApi';
 
 import './styles.css'
 
 const MapComponent = () => {
- // const [userCoords, setUserCoords] = useState<[number, number] >([55.751574, 37.573856]);
- const userCoords= [55.751574, 37.573856];
-  // useEffect(() => {
-  //   const unsubscribe = getUserGeolocation((latitude, longitude) => {
-  //     setUserCoords([latitude, longitude]);
-  //   });
+ const [userCoords, setUserCoords] = useState<[number, number] >([55.751574, 37.573856]);
+  useEffect(() => {
+    const unsubscribe = getUserGeolocation((latitude, longitude) => {
+      setUserCoords([latitude, longitude]);
+    });
 
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <YMaps query={{
