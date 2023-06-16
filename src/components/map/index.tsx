@@ -1,52 +1,40 @@
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
+
+import { getUserGeolocation } from '../../api/browserApi';
+
 import './styles.css'
 
 const MapComponent = () => {
-  const [userCoords, setUserCoords] = useState<[number, number] | null>(null);
-  // const [userHeading, setUserHeading] = useState<number | null>(null);
-
+ const [userCoords, setUserCoords] = useState<[number, number] >([55.751574, 37.573856]);
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserCoords([latitude, longitude]);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    } else {
-      console.error('Geolocation is not supported by this browser.');
-    }
-
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleDeviceOrientation, true);
-    } else {
-      console.error('DeviceOrientationEvent is not supported by this browser.');
-    }
+    const unsubscribe = getUserGeolocation((latitude, longitude) => {
+      setUserCoords([latitude, longitude]);
+    });
 
     return () => {
-      window.removeEventListener('deviceorientation', handleDeviceOrientation);
+      unsubscribe();
     };
   }, []);
 
-  const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-    const { alpha } = event;
-    if (alpha !== null) {
-      // const heading = 360 - alpha;
-      // setUserHeading(heading);
-    }
-  };
-
-
   return (
-    <YMaps>
-      <div className={"map-container"}>
-        <Map defaultState={{ center: userCoords!, zoom: 15 }}
-          width="100%" height="100%">
-          {userCoords && <Placemark geometry={userCoords} />}
+    <YMaps query={{
+      lang: "en_RU",
+      apikey: "18f172d7-21c0-4d35-bac0-a89f15490ad1"
+    }}>
+      <div className="map-container">
+        <Map defaultState={{ center: userCoords, zoom: 15 }} width="100%" height="100%">
+          {userCoords && (
+            <Placemark
+              geometry={userCoords}
+              options={{
+                iconLayout: 'default#image',
+                iconImageHref: 'src/assets/imgs/userMark.svg',
+                iconImageSize: [40, 40],
+                iconImageOffset: [0, 0],
+              }}
+            />
+          )}
         </Map>
       </div>
     </YMaps>
@@ -54,3 +42,4 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
+

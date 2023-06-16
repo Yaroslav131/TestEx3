@@ -1,19 +1,28 @@
-.aside-menu {
+.nav-menu {
+    display: flex;
+    flex-direction: row;
+}
+
+.static-menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
     margin: 0;
-    width: 45px;
+    width: 60px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    padding-top: 10px;
-    border-right: rgb(164, 156, 156);
-    border-right-width: 1px;
-    border-right-style: solid;
+    padding: 0;
+    background-color: white;
+    padding-bottom: 10px;
+    z-index: 3;
+    box-shadow: 5px 0 5px -5px #333;
 }
 
 .top-button-container {
-    
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -21,10 +30,7 @@
     border: 1px;
 }
 
-.top-button-container> div
-{
-    margin-bottom: 15px;
-}
+
 .container {
     width: 60px;
     height: 60px;
@@ -34,43 +40,42 @@
 }
 
 .menu-button {
-    width: 50px;
-    height: 50px;
-    cursor:pointer;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
     border-radius: 5px;
+    transition: 0.15s;
 }
 
-.menu-button:hover
-{
+.menu-button:hover {
     opacity: 0.8;
 }
 
-.menu-button:active
-{
+.menu-button:active {
     opacity: 0.6;
 }
 
 .search-button {
     background-color: #5E7BC7;
     border: none;
-   
+
 }
 
 .saved-button {
     background-color: white;
- 
+
     border-color: rgb(181, 176, 176);
     border-width: 5px;
     border-style: solid;
 }
 
 .sing-button {
-    
+
     border: none;
     background-color: #808080;
 }
 
-.img-container{
+.img-container {
     display: flex;
     align-items: center;
     justify-content: center;
