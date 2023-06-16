@@ -1,4 +1,4 @@
-import { YMaps, Map, Placemark, GeolocationControl, ObjectManager } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
 
 import { getUserGeolocation } from '../../api/browserApi';
