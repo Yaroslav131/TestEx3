@@ -4,11 +4,11 @@ import './styles.css'
 
 interface Iprops {
     isOpen: boolean,
-    content: JSX.Element
-    onCloseMenuClick: () => void
+    content: JSX.Element|null
+    handleCloseSlideMenu: () => void
 }
 
-function SlideMenu({ isOpen, content, onCloseMenuClick }: Iprops) {
+function SlideMenu({ isOpen, content, handleCloseSlideMenu }: Iprops) {
     return (
         <div className={isOpen ?  "side-menu" : "close-side-menu"}>
             <div className="main-container">
@@ -19,7 +19,7 @@ function SlideMenu({ isOpen, content, onCloseMenuClick }: Iprops) {
                 {content}
             </div>
             <div className="uvula-container">
-                <button onClick={onCloseMenuClick} className="uvula" />
+                <button onClick={handleCloseSlideMenu} className="uvula" />
             </div>
         </div>
     );
