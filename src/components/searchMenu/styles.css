@@ -2,7 +2,9 @@
     width: 100%;
     margin-top: 30px;
     height: 100%;
-    position: relative;
+   display:  flex;
+   justify-content: space-between;
+   flex-direction: column;
 }
 
 .option-label {
@@ -86,7 +88,7 @@
     border: none;
     border-radius: 5px;
     width: 100%;
-    position: absolute;
+
     bottom: 0;
     height: 40px;
     display: flex;

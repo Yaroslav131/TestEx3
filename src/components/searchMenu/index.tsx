@@ -7,10 +7,12 @@ import './styles.css'
 function SearchMenu() {
     return (
         <div className="search-menu">
-            <label className="option-label">Искать:</label>
-            <SearcOptions />
-            <label className="option-label">В радиусе:</label>
-            <InputRadius />
+            <div>
+                <label className="option-label">Искать:</label>
+                <SearcOptions />
+                <label className="option-label">В радиусе:</label>
+                <InputRadius />
+            </div>
             <button className="seach-button">
                 <img src={search} alt="" />
             </button>
