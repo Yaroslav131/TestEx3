@@ -1,6 +1,8 @@
 .search-menu {
     width: 100%;
     margin-top: 30px;
+    height: 100%;
+    position: relative;
 }
 
 .option-label {
@@ -10,6 +12,7 @@
 
 .search-select {
     margin-top: 15px;
+    margin-bottom: 20px;
     padding-top: 15px;
     padding-right: 15px;
     padding-left: 15px;
@@ -74,4 +77,31 @@
 .option-description {
     font-weight: 700;
     font-style: 14px;
+}
+
+
+
+.seach-button {
+    background-color: #5E7BC7;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.15s;
+    margin-top: 25px;
+
+}
+
+.seach-button:hover {
+    opacity: 0.8;
+}
+
+.seach-button:active {
+    opacity: 0.6;
 }
