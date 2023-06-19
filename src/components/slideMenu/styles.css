@@ -50,34 +50,6 @@
     background-color: rgb(240, 240, 240);
 }
 
-.search-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #C4C4C4;
-    border-radius: 5px;
-    min-height: 40px;
-    width: 100%;
-}
-
-.search-input {
-    border: none;
-    font-size: 16px;
-    color: #606060;
-    outline: none;
-    margin-left: 10px;
-}
-
-.search-icon {
-    margin-left: 10px;
-    margin-top: -2px;
-    width: 17px;
-    opacity: 0.7;
-}
-
 @media (max-width: 400px) {
     .side-menu {
         width: 250px !important;
