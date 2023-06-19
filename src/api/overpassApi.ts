@@ -1,30 +1,60 @@
-interface IGeoObject {
-    id: number,
-    lat: number,
-    lon: number,
-    name: string,
-    amenity: string | null,
-    tourism: string | null,
-    website: string | null,
-    phone: string | null,
-    address: string | null,
-    description: string | null,
-}
+import IGeoObject from "../interfaces/IGeoObject"
 
-export default function getGeoObjects(theme: string, objet: string, radius: number, latitude: number, longitude: number): IGeoObject[] {
-    let geoObjectsArr: IGeoObject[] = [];
+export  function getGeoObjects(geoObjects: IGeoObject[]): IGeoObject[] {
+    return geoObjects.map((x: any) => {
+        return {
+            id: x.id,
+            lat: x.lat,
+            lon: x.lon,
+            name: x.tags.name,
+            amenity: x.tags.amenity,
+            tourism: x.tags.tourism,
+            website: x.tags.website,
+            phone: x.tags.phone,
+            adress: x.tags.address,
+            description: x.tags.description
+        }
+    })
+};
 
-    fetchOverpassApiData(theme, objet, radius, latitude, longitude).then(result => {
-        geoObjectsArr = result.map((x: any) => { x.id, x.lat, x.lon, x.tags.name, x.tags.amenity, x.tags.tourism, x.tags.website, x.tags.phone, x.tags.address, x.tags.description })
-    });
 
-    return geoObjectsArr
-}
-
-const fetchOverpassApiData = async (theme: string, objet: string, radius: number, latitude: number, longitude: number) => {
+export const fetchOverpassApiDataByLocal = async (theme: string, radius: number, latitude: number, longitude: number) => {
     try {
+        const query = `[out:json];
+        (
+          node[${theme}](around:${radius},${latitude},${longitude});
+        );
+        out center;`;
+
         const response = await fetch(
-            `https://overpass-api.de/api/interpreter?data=[out:json];node[${theme}=${objet}](around:${radius},${latitude},${longitude});out;`
+            `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(
+                query
+            )}`
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            return data.elements;
+        } else {
+            console.error('Error fetching sightseeing data');
+        }
+    } catch (error) {
+        console.error('Error fetching sightseeing data:', error);
+    }
+};
+
+export const fetchOverpassApiDataByNameAdress = async (name: string) => {
+    try {
+        const query = `[out:json];
+        (
+            node["name"="${name}"];
+        );
+        out center;`;
+
+        const response = await fetch(
+            `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(
+                query
+            )}`
         );
 
         if (response.ok) {
