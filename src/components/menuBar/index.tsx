@@ -8,10 +8,16 @@ import activeSearch from '../../assets/imgs/activeSearch.svg'
 import singOut from "../../assets/imgs/singOut.svg"
 import SlideMenu from '../slideMenu';
 import SearchMenu from '../searchMenu';
+import IGeoObject from "../../interfaces/IGeoObject"
 
 import './styles.css'
 
-export default function MenuBar() {
+interface Iprops {
+    handleSetAttractions: (geoObjectArr: IGeoObject[]) => void
+    userCoords: [number, number]
+}
+
+export default function MenuBar(props: Iprops) {
     const [isOpenSlideMenu, SetIsCloseSlideMenu] = useState(false)
     const [slideMenuСontent, SetSlideMenuСontent] = useState<JSX.Element | null>(null)
     const [isSearchButtonActive, SetIsSearchButtonActive] = useState(false)
@@ -19,7 +25,9 @@ export default function MenuBar() {
 
     function handleCloseSlideMenu() {
         SetIsCloseSlideMenu(false)
+
         SetIsSaveButtonActive(false)
+
         SetIsSearchButtonActive(false)
     }
 
@@ -28,17 +36,24 @@ export default function MenuBar() {
 
         if (buttonName === "searchButton") {
             SetIsSearchButtonActive(true)
+
             SetIsSaveButtonActive(false)
-            SetSlideMenuСontent(<SearchMenu />);
+
+            SetSlideMenuСontent(
+                <SearchMenu
+                    userCoords={props.userCoords}
+                    handleSetAttractions={props.handleSetAttractions} />);
+
         } else if (buttonName === "saveButton") {
             SetIsSaveButtonActive(true)
+
             SetIsSearchButtonActive(false)
+
             SetSlideMenuСontent(<></>);
         }
 
         SetIsCloseSlideMenu(true);
     }
-
 
     return (
         <menu className="nav-menu">
@@ -55,7 +70,7 @@ export default function MenuBar() {
                                 "active-menu-button" :
                                 "menu-button search-button"}>
                             <div className="img-container">
-                                <img src={isSearchButtonActive ? activeSearch: search}
+                                <img src={isSearchButtonActive ? activeSearch : search}
                                     className="menu-img" alt="" />
                             </div>
                         </button>
@@ -68,9 +83,8 @@ export default function MenuBar() {
                                 "active-menu-button" :
                                 "menu-button saved-button"}>
                             <div className="img-container">
-                                <img src={isSaveButtonActive ? activeSave: save}
-
-                                className="menu-img"
+                                <img src={isSaveButtonActive ? activeSave : save}
+                                    className="menu-img"
                                     alt="" />
                             </div>
                         </button>
