@@ -15,38 +15,33 @@ import bicycleIcon from "../../assets/imgs/attractionsIcons/bicycleIcon.svg";
 import bankIcon from "../../assets/imgs/attractionsIcons/bankIcon.svg";
 import architectureIcon from "../../assets/imgs/attractionsIcons/architectureIcon.svg";
 import eighteenPlusIcon from "../../assets/imgs/attractionsIcons/18+Icon.svg";
-import otherIcon from "../../assets/imgs/attractionsIcons/otherIcon.svg";
-
 
 interface ISeachOption {
-    optionIcon: string,
-    value: string,
-    description: string
+  theme: string
+  optionIcon: string,
+  description: string
 }
 
-const attractions :ISeachOption[]= [
-    { optionIcon: natureIcon, value: "nature", description: "Природа, парки" },
-    { optionIcon: variantIcon, value: "religion", description: "Религия" },
-    { optionIcon: sportIcon, value: "sport", description: "Спортивные центры" },
-    { optionIcon: restaurantIcon, value: "restaurant", description: "Рестораны" },
-    { optionIcon: marketIcon, value: "market", description: "Магазины" },
-    { optionIcon: industryIcon, value: "industry", description: "Промышленность" },
-    { optionIcon: hostalIcon, value: "hotel", description: "Отель" },
-    { optionIcon: historyIcon, value: "history", description: "История" },
-    { optionIcon: gasStationIcon, value: "gasStation", description: "Заправка" },
-    { optionIcon: entertainmentIcon, value: "entertainment", description: "Развлечения" },
-    { optionIcon: cultureIcon, value: "culture", description: "Культура" },
-    { optionIcon: coffeeIcon, value: "coffee", description: "Кофе" },
-    { optionIcon: carIcon, value: "car", description: "Каршеринг" },
-    { optionIcon: bicycleIcon, value: "bicycle", description: "Прокат велосипедов" },
-    { optionIcon: bankIcon, value: "bank", description: "Банки" },
-    { optionIcon: architectureIcon, value: "architecture", description: "Архитектура" },
-    { optionIcon: eighteenPlusIcon, value: "18+", description: "18+" },
-    { optionIcon: otherIcon, value: "other", description: "Другое" }
-  ];
+const attractions: ISeachOption[] = [
+  { optionIcon: natureIcon, theme: `"leisure"="park"`, description: "Природа, парки" },
+  { optionIcon: variantIcon, theme: `"amenity"="place_of_worship"`, description: "Религия" },
+  { optionIcon: sportIcon, theme: "sport", description: "Спортивные центры" },
+  { optionIcon: restaurantIcon, theme: "amenity=restaurant", description: "Рестораны" },
+  { optionIcon: marketIcon, theme: "shop=supermarket", description: "Магазины" },
+  { optionIcon: industryIcon, theme: "industrial", description: "Промышленность" },
+  { optionIcon: hostalIcon, theme: "tourism=hotel", description: "Отель" },
+  { optionIcon: historyIcon, theme: "historic=monument", description: "История" },
+  { optionIcon: gasStationIcon, theme: "amenity=fuel", description: "Заправка" },
+  { optionIcon: entertainmentIcon, theme: "leisure", description: "Развлечения" },
+  { optionIcon: cultureIcon, theme: "amenity=arts_centre", description: "Культура" },
+  { optionIcon: coffeeIcon, theme: "amenity=cafe", description: "Кофе" },
+  { optionIcon: carIcon, theme: "amenity=car_rental", description: "Каршеринг" },
+  { optionIcon: bicycleIcon, theme: 'amenity=bicycle_rental', description: 'Прокат велосипедов' },
+  { optionIcon: bankIcon, theme: "amenity=bank", description: "Банки" },
+  { optionIcon: architectureIcon, theme: "historic=architectural", description: "Архитектура" },
+  { optionIcon: eighteenPlusIcon, theme: "stripclub", description: "18+" },
+];
 
-// вынести пути в .env
-// не работает require 
 
 export default attractions;
 
