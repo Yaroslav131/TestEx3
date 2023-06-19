@@ -30,7 +30,7 @@ const MapComponent = () => {
               geometry={userCoords}
               options={{
                 iconLayout: 'default#image',
-                iconImageHref: '/src/assets/imgs/userMark.svg',
+                iconImageHref: '../../src/assets/imgs/userMark.svg',
                 iconImageSize: [40, 40],
                 iconImageOffset: [0, 0],
               }}
