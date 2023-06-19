@@ -1,13 +1,44 @@
-import attractions from "./searchOptions";
+import { useState,useEffect } from 'react'
 
+import SearcOption from '../searchOprion';
+
+import attractions from "./searchOptions";
 import './styles.css'
 
-function SearcOptions() {
+interface Iprops {
+    handleSetAttractionThemes: (attractionThemes: string[]) => void
+}
+
+function SearcOptions(props: Iprops) {
+    const [selectedAttractions, setSelectedAttractions] = useState<string[]>([]);
+
+    useEffect(() => {
+        props.handleSetAttractionThemes(selectedAttractions);
+    }, [selectedAttractions]);
+
+    function handleSetSelectedAttraction(selectedAttraction: string) {
+        setSelectedAttractions(prevAttractions => {
+            const updatedAttractions = [...prevAttractions];
+
+            const attractionIndex = updatedAttractions.indexOf(selectedAttraction);
+
+            if (attractionIndex !== -1) {
+                updatedAttractions.splice(attractionIndex, 1);
+            } else {
+                updatedAttractions.push(selectedAttraction);
+            }
+
+            return updatedAttractions;
+        });
+    }
+
     const options = attractions.map((x, index) => {
-        return <div className="search-option" key={index} id={x.value}>
-            <img className="option-icon" src={x.optionIcon} alt={x.value} />
-            <span className="option-description">{x.description} </span>
-        </div>
+        return <SearcOption
+            theme={x.theme}
+            handleSetSelectedAttraction={handleSetSelectedAttraction}
+            key={index}
+            description={x.description}
+            optionIcon={x.optionIcon} />
     })
 
     return (
@@ -18,3 +49,5 @@ function SearcOptions() {
 }
 
 export default SearcOptions;
+
+
