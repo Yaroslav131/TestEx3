@@ -7,6 +7,7 @@ import './styles.css'
 
 const MapComponent = () => {
  const [userCoords, setUserCoords] = useState<[number, number] >([55.751574, 37.573856]);
+ 
   useEffect(() => {
     const unsubscribe = getUserGeolocation((latitude, longitude) => {
       setUserCoords([latitude, longitude]);
@@ -29,7 +30,7 @@ const MapComponent = () => {
               geometry={userCoords}
               options={{
                 iconLayout: 'default#image',
-                iconImageHref: 'src/assets/imgs/userMark.svg',
+                iconImageHref: '/src/assets/imgs/userMark.svg',
                 iconImageSize: [40, 40],
                 iconImageOffset: [0, 0],
               }}
