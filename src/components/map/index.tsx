@@ -2,6 +2,7 @@ import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
 
 import { getUserGeolocation } from '../../api/browserApi';
+import userMark from "../../assets/imgs/userMark.svg"
 
 import './styles.css'
 
@@ -30,7 +31,7 @@ const MapComponent = () => {
               geometry={userCoords}
               options={{
                 iconLayout: 'default#image',
-                iconImageHref: '../../src/assets/imgs/userMark.svg',
+                iconImageHref: userMark,
                 iconImageSize: [40, 40],
                 iconImageOffset: [0, 0],
               }}
