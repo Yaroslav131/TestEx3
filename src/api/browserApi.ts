@@ -1,20 +1,17 @@
- export function getUserGeolocation(callback: (latitude: number, longitude: number) => void): () => void {
+export function getUserGeolocation(): Promise<{ latitude: number; longitude: number }> {
+  return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
+      navigator.geolocation.getCurrentPosition(
+        position => {
           const { latitude, longitude } = position.coords;
-          callback(latitude, longitude);
+          resolve({ latitude, longitude });
         },
-        (error) => {
-          console.error(error);
+        error => {
+          reject(error);
         }
       );
-  
-      return () => {
-        navigator.geolocation.clearWatch(watchId);
-      };
     } else {
-      console.error('Geolocation is not supported by this browser.');
-      return () => {};
+      reject(new Error('Geolocation is not supported by this browser.'));
     }
-  }
+  });
+}
