@@ -3,7 +3,7 @@ export default interface IGeoObject {
     lat: number,
     lon: number,
     name: string,
-    amenity: string | null,
+    tag: string | null,
     tourism: string | null,
     website: string | null,
     phone: string | null,
