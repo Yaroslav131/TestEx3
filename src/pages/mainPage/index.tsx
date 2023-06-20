@@ -1,37 +1,36 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 import MapComponent from '../../components/map'
+import { getObjectByTags } from "../../api/overpassApi";
 import MenuBar from '../../components/menuBar'
 import { getUserGeolocation } from '../../api/browserApi';
-import IGeoObject from "../../interfaces/IGeoObject"
+import { attractionsTags } from "../../config"
+import { setCoords } from "../../store/slices/userCordsSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setGeoObjects } from "../../store/slices/geoObjectsSlice";
 
 import './styles.css'
 
 function MainPage() {
-  const [attractionsRequest, SetAttractionsRequest] = useState<IGeoObject[] | null>(null)
-  const [userCoords, setUserCoords] = useState<[number, number]>([55.751574, 37.573856]);
-
-  function handleSetAttractions(attractions: IGeoObject[]) {
-    SetAttractionsRequest(attractions)
-    console.log(attractions)
-  }
+  const dispatch = useAppDispatch();
+  const radius = useAppSelector((state) => state.radius.value);
 
   useEffect(() => {
-    const unsubscribe = getUserGeolocation((latitude, longitude) => {
-      setUserCoords([latitude, longitude])
-    });
+    getUserGeolocation().then(coords => {
 
-    return () => {
-      unsubscribe();
-    };
+      dispatch(setCoords([coords.latitude, coords.longitude]))
+
+      getObjectByTags(attractionsTags, [coords.latitude, coords.longitude], radius).then((result) => {
+
+        dispatch(setGeoObjects(result))
+      })
+    })
   }, []);
 
   return (
     <div className='main-page'>
-      <MenuBar
-        userCoords={userCoords}
-        handleSetAttractions={handleSetAttractions} />
-      <MapComponent userCoords={userCoords} />
+      <MenuBar />
+      <MapComponent />
     </div>
   )
 }
