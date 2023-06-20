@@ -6,7 +6,7 @@ interface Iprops {
     theme: string
     optionIcon: string,
     description: string
-    handleSetSelectedAttraction: (selectedAttraction: string) => void
+    handleSetSelectedAttractionTag: (selectedAttraction: string) => void
 }
 
 function SearcOption(props: Iprops) {
@@ -15,7 +15,7 @@ function SearcOption(props: Iprops) {
     function handleOptionClick() {
         isSelected ? SetIsSelected(false) : SetIsSelected(true)
 
-        props.handleSetSelectedAttraction(props.theme)
+        props.handleSetSelectedAttractionTag(props.theme)
     }
 
     return (

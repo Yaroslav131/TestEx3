@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react"
+import { setName } from "../../store/slices/objectNameSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 import searchIcon from '../../assets/imgs/searchInput.svg'
 
 import "./styles.css"
 
-interface Iprops {
-    inputSearchValue: (event:any) => void
-}
-
-function SearchInput(props: Iprops) {
-    const [inputValue, SetInputValue] = useState<string>("")
-
-    useEffect(() => {
-        props.inputSearchValue(inputValue);
-        SetInputValue("")
-    }, [inputValue])
-
+function SearchInput() {
+    const dispatch = useAppDispatch();
     function handleOnInputChange(event: any) {
         const inputValue = event.target.value;
-
-        SetInputValue(inputValue);
+        
+        dispatch(setName(inputValue));
     }
 
     return (<div className='search-container'>
