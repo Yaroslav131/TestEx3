@@ -1,41 +1,29 @@
-import { useState,useEffect } from 'react'
-
+import { addTag, deleteTag } from "../../store/slices/tagsSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import SearcOption from '../searchOprion';
+import { attractionsOptions } from "../../config";
 
-import attractions from "./searchOptions";
 import './styles.css'
 
-interface Iprops {
-    handleSetAttractionThemes: (attractionThemes: string[]) => void
-}
+function SearcOptions() {
+    const dispatch = useAppDispatch();
+    const tags = useAppSelector((state) => state.tags.value);
 
-function SearcOptions(props: Iprops) {
-    const [selectedAttractions, setSelectedAttractions] = useState<string[]>([]);
+    function handleSetSelectedAttractionTag(selectedAttraction: string) {
+        const attractionIndex = tags.indexOf(selectedAttraction);
 
-    useEffect(() => {
-        props.handleSetAttractionThemes(selectedAttractions);
-    }, [selectedAttractions]);
+        if (attractionIndex !== -1) {
+            dispatch(deleteTag(selectedAttraction))
+        }
+        else {
+            dispatch(addTag(selectedAttraction))
+        }
+    };
 
-    function handleSetSelectedAttraction(selectedAttraction: string) {
-        setSelectedAttractions(prevAttractions => {
-            const updatedAttractions = [...prevAttractions];
-
-            const attractionIndex = updatedAttractions.indexOf(selectedAttraction);
-
-            if (attractionIndex !== -1) {
-                updatedAttractions.splice(attractionIndex, 1);
-            } else {
-                updatedAttractions.push(selectedAttraction);
-            }
-
-            return updatedAttractions;
-        });
-    }
-
-    const options = attractions.map((x, index) => {
+    const options = attractionsOptions.map((x, index) => {
         return <SearcOption
-            theme={x.theme}
-            handleSetSelectedAttraction={handleSetSelectedAttraction}
+            theme={x.tag}
+            handleSetSelectedAttractionTag={handleSetSelectedAttractionTag}
             key={index}
             description={x.description}
             optionIcon={x.optionIcon} />
