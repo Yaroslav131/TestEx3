@@ -1,23 +1,28 @@
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import { useEffect, useState } from 'react';
+import { YMaps, Map, Circle } from '@pbe/react-yandex-maps';
+import { useState, useEffect } from 'react';
 
-import { getUserGeolocation } from '../../api/browserApi';
 import userMark from "../../assets/imgs/userMark.svg"
+import { useAppSelector } from "../../store/hooks";
+import CustomPlacemark from '../customPlacemark';
 
 import './styles.css'
 
 const MapComponent = () => {
- const [userCoords, setUserCoords] = useState<[number, number] >([55.751574, 37.573856]);
- 
-  useEffect(() => {
-    const unsubscribe = getUserGeolocation((latitude, longitude) => {
-      setUserCoords([latitude, longitude]);
-    });
+  const [geoObjectPlacemarks, SetGeoObjectPlacemarks] = useState<JSX.Element[]>()
+  const userCoords = useAppSelector((state) => state.userCords.value)
+  const userRadius = useAppSelector((state) => state.radius.value)
+  const geoObjects = useAppSelector((state) => state.geoObjects.value)
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  useEffect(() => {
+    const placemarks: JSX.Element[] = geoObjects.map((x) => {
+
+      return <CustomPlacemark key={x.id} markCoords={[x.lat, x.lon]} iconImageHref={x.iconImgHref } />
+    })
+
+    SetGeoObjectPlacemarks(placemarks)
+
+  }, [geoObjects])
+
 
   return (
     <YMaps query={{
@@ -25,18 +30,25 @@ const MapComponent = () => {
       apikey: "18f172d7-21c0-4d35-bac0-a89f15490ad1"
     }}>
       <div className="map-container">
-        <Map defaultState={{ center: userCoords, zoom: 15 }} width="100%" height="100%">
+        <Map
+          defaultState={{ center: userCoords, zoom: 15 }}
+          width="100%" height="100%">
           {userCoords && (
-            <Placemark
-              geometry={userCoords}
-              options={{
-                iconLayout: 'default#image',
-                iconImageHref: userMark,
-                iconImageSize: [40, 40],
-                iconImageOffset: [0, 0],
-              }}
-            />
+            <>
+              <CustomPlacemark markCoords={userCoords} iconImageHref={userMark} />
+              {geoObjectPlacemarks}
+              <Circle
+                geometry={[userCoords, userRadius]}
+                options={{
+                  fillColor: 'rgba(94, 123, 199, 0.2)',
+                  strokeColor: '5E7BC7',
+                  strokeOpacity: 0.8,
+                  strokeWidth: 2,
+                }}
+              />
+            </>
           )}
+
         </Map>
       </div>
     </YMaps>
@@ -44,4 +56,3 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
-

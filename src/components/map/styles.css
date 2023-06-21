@@ -4,3 +4,12 @@
     height: 100vh;
     overflow: hidden;
 }
+
+.custom-placemark {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    pointer-events: none;
+    z-index: 1000000;
+  }
