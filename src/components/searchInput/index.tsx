@@ -1,4 +1,4 @@
-import { setName } from "../../store/slices/objectNameSlice";
+import { setName } from "../../store/slices/searchNameSlice";
 import { useAppDispatch } from "../../store/hooks";
 import searchIcon from '../../assets/imgs/searchInput.svg'
 
