@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import logo from "../../assets/imgs/logo.svg"
 import save from "../../assets/imgs/save.svg"
@@ -8,6 +8,8 @@ import activeSearch from '../../assets/imgs/activeSearch.svg'
 import singOut from "../../assets/imgs/singOut.svg"
 import SlideMenu from '../slideMenu';
 import SearchMenu from '../searchMenu';
+import { useAppSelector } from "../../store/hooks";
+import SaveMenu from '../saveMenu';
 
 import './styles.css'
 
@@ -16,6 +18,21 @@ export default function MenuBar() {
     const [slideMenuСontent, SetSlideMenuСontent] = useState<JSX.Element | null>(null)
     const [isSearchButtonActive, SetIsSearchButtonActive] = useState(false)
     const [isSaveButtonActive, SetIsSaveButtonActive] = useState(false)
+
+    const isChosenObjPicked = useAppSelector((state) => state.isChosenObjPicked.value);
+
+    useEffect(() => {
+        if (isChosenObjPicked) {
+            handleDisableAllMenuButton()
+
+            SetIsSaveButtonActive(true);
+
+            SetIsSlideMenuOpen(true);
+
+            SetSlideMenuСontent(<SaveMenu />);
+        }
+    }, [isChosenObjPicked])
+
 
     function handleDisableAllMenuButton() {
         SetIsSaveButtonActive(false)
@@ -38,16 +55,15 @@ export default function MenuBar() {
 
             SetIsSearchButtonActive(true)
 
-            SetSlideMenuСontent(
-                <SearchMenu />);
-
-        } else if (buttonName === "saveButton") {
+            SetSlideMenuСontent(<SearchMenu />);
+        }
+        else if (buttonName === "saveButton" || isChosenObjPicked) {
 
             handleDisableAllMenuButton();
 
             SetIsSaveButtonActive(true)
 
-            SetSlideMenuСontent(<></>);
+            SetSlideMenuСontent(<SaveMenu />);
         }
 
         SetIsSlideMenuOpen(true);
@@ -91,7 +107,7 @@ export default function MenuBar() {
             <SlideMenu
                 isOpen={isSlideMenuOpen}
                 content={slideMenuСontent}
-                handleCloseSlideMenu={handleCloseSlideMenu} />
+                handleCloseMenu={handleCloseSlideMenu} />
         </menu >
     )
 }

@@ -19,7 +19,9 @@ function SearcOption(props: Iprops) {
     }
 
     return (
-        <button onClick={handleOptionClick} className={isSelected ? "search-option selected-option" : "search-option"} >
+        <button onClick={handleOptionClick}
+            className={isSelected ? "search-option selected-option"
+                : "search-option"} >
             <img className="option-icon" src={props.optionIcon} alt={props.description} />
             <span className="option-description">{props.description} </span>
         </button>

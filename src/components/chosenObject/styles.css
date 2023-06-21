@@ -1,0 +1,89 @@
+.chosen-object-contater {
+    border-color: rgb(199, 199, 199);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    height: 500px;
+}
+
+
+.chosen-object-img-container {
+    background-color: #808080;
+    width: 100%;
+    border-radius: 15px;
+    min-height: 300px;
+}
+
+.description {
+    font-size: 12px;
+    color: #686868;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.to-object-button,
+.unsave-button-img {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.chose-object-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chosen-buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.way-button {
+    background-color: #5E7BC7;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 105px;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.save-button
+{
+    background-color:transparent;
+    padding: 7px;
+    border-radius: 5px;
+    border: solid;
+    border-width: 3px;
+    border-color: #808080;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 120px;
+    justify-content: space-between;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+
+.way-span {
+    font-family: Mont;
+    color: white;
+}
+
+.save-span
+{
+    font-family: Mont-bold;
+    color: rgb(0, 0, 0);
+}
