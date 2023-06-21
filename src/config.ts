@@ -87,3 +87,4 @@ export const attractionsTags = [
     'stripclub'
 ]
 
+export const userSearchTag="search"
