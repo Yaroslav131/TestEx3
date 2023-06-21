@@ -5,11 +5,26 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Mont-bold';
+  src: url('/src/assets/fonts/Mont/Mont-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4
+{
+  font-family: Mont-bold;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family:Mont; 
+  font-family: Mont;
 }
 
 a {
