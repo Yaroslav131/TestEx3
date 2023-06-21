@@ -1,5 +1,5 @@
 export default interface IGeoObject {
-    iconImgHref:string,
+    iconImgHref: string,
     id: number,
     lat: number,
     lon: number,
