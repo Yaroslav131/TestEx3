@@ -1,9 +1,9 @@
-import { YMaps, Map, Circle } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Circle, Placemark } from '@pbe/react-yandex-maps';
 import { useState, useEffect } from 'react';
 
 import userMark from "../../assets/imgs/userMark.svg"
 import { useAppSelector } from "../../store/hooks";
-import CustomPlacemark from '../customPlacemark';
+import CustomPlacemark from '../geoObjectPlacemark';
 
 import './styles.css'
 
@@ -14,28 +14,40 @@ const MapComponent = () => {
   const geoObjects = useAppSelector((state) => state.geoObjects.value)
 
   useEffect(() => {
-    const placemarks: JSX.Element[] = geoObjects.map((x) => {
-
-      return <CustomPlacemark key={x.id} markCoords={[x.lat, x.lon]} iconImageHref={x.iconImgHref } />
+    const placemarks: JSX.Element[] = geoObjects.map((x, index) => {
+      return <CustomPlacemark
+        objectId={x.id}
+        key={index}
+        markCoords={[x.lat, x.lon]}
+        iconImageHref={x.iconImgHref} />
     })
 
     SetGeoObjectPlacemarks(placemarks)
 
   }, [geoObjects])
 
+  const userPlacemarkOptions = {
+    iconLayout: 'default#image',
+    iconImageHref: userMark,
+    iconImageSize: [32, 32],
+    iconImageOffset: [-16, -16],
+  };
+
 
   return (
     <YMaps query={{
       lang: "en_RU",
-      apikey: "18f172d7-21c0-4d35-bac0-a89f15490ad1"
+      apikey: import.meta.env.VITE_API_KEY_YMAPS
     }}>
       <div className="map-container">
         <Map
           defaultState={{ center: userCoords, zoom: 15 }}
-          width="100%" height="100%">
-          {userCoords && (
-            <>
-              <CustomPlacemark markCoords={userCoords} iconImageHref={userMark} />
+          width="100%"
+          height="100%">
+              <Placemark
+                geometry={userCoords}
+                options={userPlacemarkOptions}
+              />
               {geoObjectPlacemarks}
               <Circle
                 geometry={[userCoords, userRadius]}
@@ -46,9 +58,6 @@ const MapComponent = () => {
                   strokeWidth: 2,
                 }}
               />
-            </>
-          )}
-
         </Map>
       </div>
     </YMaps>
