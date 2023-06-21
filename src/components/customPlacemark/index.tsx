@@ -1,4 +1,4 @@
-import { YMaps, Map, Placemark, Circle } from '@pbe/react-yandex-maps';
+import {  Placemark } from '@pbe/react-yandex-maps';
 
 import './styles.css'
 
