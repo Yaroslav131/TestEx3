@@ -16,15 +16,22 @@ function MainPage() {
   const radius = useAppSelector((state) => state.radius.value);
 
   useEffect(() => {
-    getUserGeolocation().then(coords => {
+    const fetchData = async () => {
+      try {
+        const coords = await getUserGeolocation();
 
-      dispatch(setCoords([coords.latitude, coords.longitude]))
+        await dispatch(setCoords([coords.latitude, coords.longitude]))
 
-      getObjectByTags(attractionsTags, [coords.latitude, coords.longitude], radius).then((result) => {
+        const geoObjects = await getObjectByTags(attractionsTags, [coords.latitude, coords.longitude], radius);
 
-        dispatch(setGeoObjects(result))
-      })
-    })
+        await dispatch(setGeoObjects(geoObjects))
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
