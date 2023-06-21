@@ -1,13 +1,12 @@
 import IGeoObject from "../interfaces/IGeoObject";
 import { geoIcons } from "../config"
 
-export async function getObjectByName(name: string): Promise<IGeoObject[]> {
+export async function getObjectByName(name: string,tag:string): Promise<IGeoObject[]> {
     const geoObjects: IGeoObject[] = [];
-    const userSearch="search"
 
     const geoObjectsData = await fetchOverpassApiDataByNameAddress(name);
     if (geoObjectsData) {
-        const mappedGeoObjects = getGeoObjects(geoObjectsData,userSearch);
+        const mappedGeoObjects = getGeoObjects(geoObjectsData,tag);
         geoObjects.push(...mappedGeoObjects);
     }
 
