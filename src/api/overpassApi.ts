@@ -1,11 +1,13 @@
 import IGeoObject from "../interfaces/IGeoObject";
+import { geoIcons } from "../config"
 
 export async function getObjectByName(name: string): Promise<IGeoObject[]> {
     const geoObjects: IGeoObject[] = [];
+    const userSearch="search"
 
     const geoObjectsData = await fetchOverpassApiDataByNameAddress(name);
     if (geoObjectsData) {
-        const mappedGeoObjects = getGeoObjects(geoObjectsData);
+        const mappedGeoObjects = getGeoObjects(geoObjectsData,userSearch);
         geoObjects.push(...mappedGeoObjects);
     }
 
@@ -33,9 +35,13 @@ export async function getObjectByTags(tags: string[], userCoords: [number, numbe
     return geoObjects;
 }
 
-function getGeoObjects(geoObjects: IGeoObject[], tag: string = ""): IGeoObject[] {
+function getGeoObjects(geoObjects: IGeoObject[], tag: string): IGeoObject[] {
     return geoObjects.map((x: any) => {
+
+        let img = geoIcons.find(x => x.tag == tag)?.optionIcon || ""
+
         return {
+            iconImgHref: img,
             id: x.id,
             lat: x.lat,
             lon: x.lon,
