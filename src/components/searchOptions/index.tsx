@@ -1,7 +1,7 @@
 import { addTag, deleteTag } from "../../store/slices/tagsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import SearcOption from '../searchOprion';
-import { attractionsOptions } from "../../config";
+import { geoIcons, seachOptions } from "../../config";
 
 import './styles.css'
 
@@ -20,13 +20,15 @@ function SearcOptions() {
         }
     };
 
-    const options = attractionsOptions.map((x, index) => {
+    const options = seachOptions.map((x, index) => {
+        const icon = geoIcons.find(y => y.tag == x.tag)?.optionIcon || ""
+
         return <SearcOption
             theme={x.tag}
             handleSetSelectedAttractionTag={handleSetSelectedAttractionTag}
             key={index}
             description={x.description}
-            optionIcon={x.optionIcon} />
+            optionIcon={icon} />
     })
 
     return (

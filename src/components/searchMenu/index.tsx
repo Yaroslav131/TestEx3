@@ -32,8 +32,8 @@ function SearchMenu() {
 
     return (
         <div className="search-menu">
-            <SearchInput />
             <div>
+                <SearchInput />
                 <label className="option-label">Искать:</label>
                 <SearcOptions />
                 <label className="option-label">В радиусе:</label>

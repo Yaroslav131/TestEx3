@@ -1,6 +1,5 @@
 import { setName } from "../../store/slices/objectNameSlice";
 import { useAppDispatch } from "../../store/hooks";
-
 import searchIcon from '../../assets/imgs/searchInput.svg'
 
 import "./styles.css"
