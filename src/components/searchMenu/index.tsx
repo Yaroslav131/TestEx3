@@ -5,6 +5,7 @@ import SearchInput from '../searchInput';
 import { getObjectByTags, getObjectByName } from "../../api/overpassApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setGeoObjects } from "../../store/slices/geoObjectsSlice";
+import {userSearchTag} from '../../config'
 
 import './styles.css'
 
@@ -17,7 +18,7 @@ function SearchMenu() {
 
     function makeMapObjectRequest() {
         if (name != "") {
-            getObjectByName(name).then((result) => {
+            getObjectByName(name,userSearchTag).then((result) => {
                 dispatch(setGeoObjects(result))
             })
         }
@@ -34,9 +35,9 @@ function SearchMenu() {
         <div className="search-menu">
             <div>
                 <SearchInput />
-                <label className="option-label">Искать:</label>
+                <h2 className="option-title">Искать:</h2>
                 <SearcOptions />
-                <label className="option-label">В радиусе:</label>
+                <h2 className="option-title">В радиусе:</h2>
                 <InputRadius />
             </div>
             <button onClick={makeMapObjectRequest} className="seach-button">
