@@ -1,16 +1,16 @@
-import { Provider } from "react-redux"
+import { Provider } from 'react-redux';
 
-import store from "../src/store/store"
-import MainPage from './pages/mainPage'
+import store from '../src/store/store';
+import MainPage from './pages/mainPage';
 
-import './globalStyles.css'
+import './globalStyles.css';
 
-function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <MainPage />
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,7 @@
 .search-option {
     display: flex;
     align-items: center;
+    justify-content: start;
     margin-bottom: 10px;
     transition: 0.15s;
     cursor: pointer;
@@ -31,7 +32,9 @@
 }
 
 .option-description {
+    align-items: start;
     font-weight: 700;
     font-style: 14px;
     font-family: Mont-bold;
+ text-align: left;
 }

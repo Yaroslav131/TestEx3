@@ -1,59 +1,90 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import SavedObject from "../savedObject";
-import play from "../../assets/imgs/play.svg"
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { closeChosenObj } from "../../store/slices/isChosenObjPickedSlice";
-import ChosenObject from "../chosenObject";
+import SavedObject from '../SavedObject';
+import play from '../../assets/imgs/play.svg';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { closeChosenObj } from '../../store/slices/isChosenObjPickedSlice';
+import ChosenObject from '../ChosenObject';
+import IGeoObject from '../../types/IGeoObject';
+import { getObjectById } from '../../api/overpassApi';
 
-import "./styles.css"
+import './styles.css';
 
-function SaveMenu() {
-    const [sevedObjectsId, SetSevedObjectsId] = useState<number[]>()
-    const [sevedObjects, SetSevedObjects] = useState<JSX.Element[]>([<SavedObject />])
-    const isChosenObjPicked = useAppSelector((state) => state.isChosenObjPicked.value);
+const SaveMenu = () => {
+  const dispatch = useAppDispatch();
+  const [savedObjectsId, setSavedObjectsId] = useState<number[]>([]);
+  const [chosenObject, setChosenObject] = useState<IGeoObject | null>(null);
+  const isChosenObjPicked = useAppSelector(
+    (state) => state.isChosenObjPicked.value
+  );
+  const [savedObjects, setSavedObjects] = useState<JSX.Element[]>([]);
+  const handleBackClick = () => {
+    dispatch(closeChosenObj());
+  };
 
-    const dispatch = useAppDispatch();
+  useEffect(() => {
+    async function handleSetSevedObjects() {
+      const geoObjects = await getObjectById(savedObjectsId)
 
-    const handleBackClick = () => {
-        dispatch(closeChosenObj())
-    };
+      const savedObjects = geoObjects.map((x, index) =>
+        <SavedObject handleDeleteObject={handleDeleteObjectId} savedObject={x} key={index} />)
+      setSavedObjects(savedObjects)
+    }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // запрос к бд за id
-                // запос к оверпас по id
-                //создание плиточек
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData()
-    }, [sevedObjectsId])
+    handleSetSevedObjects()
+  }, [savedObjectsId]);
 
-    return (
-        <div className="save-menu">
-            {isChosenObjPicked ?
-                <>
-                    <div className="chose-object-title">
-                        <button onClick={handleBackClick} className="back-save-button">
-                            <img className='back-button-img' src={play} alt="" />
-                        </button>
-                        <h2 className="option-title">Избранное</h2>
-                    </div>
-                    {<ChosenObject />}
-                </>
-                :
-                <>
-                    <h2 className="option-title">Избранное:</h2>
-                    <div className="saved-contant">
-                        {sevedObjects}
-                    </div>
-                </>
-            }
-        </div>
-    );
+
+  useEffect(() => {
+    async function handleChooseObject() {
+      if (isChosenObjPicked[0]) {
+        const geoObjects = await getObjectById([isChosenObjPicked[1]!])
+
+        setChosenObject(geoObjects[0])
+      }
+    }
+
+    handleChooseObject()
+  }, [isChosenObjPicked]);
+
+  function handleDeleteObjectId(id: number) {
+    setSavedObjectsId(prevSavedObjectsId => {
+      const newSavedObjectsId = prevSavedObjectsId.filter(x => x !== id);
+      return newSavedObjectsId;
+    });
+  }
+
+  function handleSaveObjectId(id: number) {
+    setSavedObjectsId(prevSavedObjectsId => {
+      const newSavedObjectsId = [...prevSavedObjectsId, id];
+      return newSavedObjectsId;
+    });
+  }
+
+  return (
+    <div className="save-menu">
+      {isChosenObjPicked[0] ? (
+        <>
+          <div className="chose-object-title">
+            <button onClick={handleBackClick} className="back-save-button">
+              <img className="back-button-img" src={play} alt="назад" />
+            </button>
+            <h2 className="option-title">Избранное</h2>
+          </div>
+          <ChosenObject
+            handleSaveObject={handleSaveObjectId}
+            handleDeleteObject={handleDeleteObjectId}
+            isSave={savedObjectsId.includes(chosenObject?.id!)}
+            chosenObject={chosenObject} />
+        </>
+      ) : (
+        <>
+          <h2 className="option-title">Избранное:</h2>
+          <div className="saved-contant">{savedObjects}</div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default SaveMenu;

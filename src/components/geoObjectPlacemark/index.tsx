@@ -1,40 +1,45 @@
 import React from 'react';
 import { Placemark } from '@pbe/react-yandex-maps';
 
-import { useAppDispatch } from "../../store/hooks";
-import { pickChosenObj } from "../../store/slices/isChosenObjPickedSlice";
+import { useAppDispatch } from '../../store/hooks';
+import { pickChosenObj } from '../../store/slices/isChosenObjPickedSlice';
 
 import './styles.css';
 
-interface IProps {
-    objectId: number
-    iconImageHref: string;
-    markCoords: [number, number];
+interface GeoObjectPlacemarkProps {
+  objectId: number;
+  iconImageHref: string;
+  markCoords: [number, number];
 }
 
-const GeoObjectPlacemark: React.FC<IProps> = (props) => {
-    const dispatch = useAppDispatch();
+const GeoObjectPlacemark: React.FC<GeoObjectPlacemarkProps> = ({
+  objectId,
+  iconImageHref,
+  markCoords,
+}) => {
 
-    const handlePlacemarkClick = () => {
-        dispatch(pickChosenObj())
-    };
+  const dispatch = useAppDispatch();
 
-    const placemarkOptions = {
-        iconLayout: 'default#image',
-        iconImageHref: props.iconImageHref,
-        iconImageSize: [32, 32],
-        iconImageOffset: [-16, -16],
-    };
+  const handlePlacemarkClick = () => {
+    dispatch(pickChosenObj(objectId));
+  };
 
-    return (
-        <div id={`${props.objectId}`}>
-            <Placemark
-                geometry={props.markCoords}
-                options={placemarkOptions}
-                onClick={handlePlacemarkClick}
-            />
-        </div>
-    );
+  const placemarkOptions = {
+    iconLayout: 'default#image',
+    iconImageHref: iconImageHref,
+    iconImageSize: [32, 32],
+    iconImageOffset: [-16, -16],
+  };
+
+  return (
+    <div>
+      <Placemark
+        geometry={markCoords}
+        options={placemarkOptions}
+        onClick={handlePlacemarkClick}
+      />
+    </div>
+  );
 };
 
 export default GeoObjectPlacemark;

@@ -1,35 +1,82 @@
-import activeSave from "../../assets/imgs/activeSave.svg"
-import way from "../../assets/imgs/way.svg"
+import { useState, useEffect } from "react"
 
-import './styles.css'
+import activeSaveIcon from '../../assets/imgs/activeSave.svg';
+import wayIcon from '../../assets/imgs/way.svg';
+import palceholderImg from '../../assets/imgs/imagePlaceholder.png';
+import IGeoObject from '../../types/IGeoObject';
 
-function ChosenObject() {
-    return (
-        <div className="chosen-object-contater">
-            <div className='chosen-object-img-container'>
-                <img src={""} alt="" />
-            </div>
-            <div>
-                <div className='title-container'>
-                    <h2 className='object-title'>Палац культуры</h2>
-                </div>
+import './styles.css';
 
-                <div className='description-container'>
-                    <p className='description'>7.	Добавьте возможность отображения маршрута.</p>
-                </div>
-            </div>
-            <div className='chosen-buttons-container'>
-                <button className='save-button'>
-                    <img className="save-button-img" src={activeSave} alt="" />
-                    <span className="save-span">Сохранено</span>
-                </button>
-
-                <button className='way-button'>
-                    <img className='way-button-img' src={way} alt="" />
-                    <span className="way-span">Маршрут</span>
-                </button>
-            </div>
-        </div>);
+interface IProps {
+  chosenObject: IGeoObject | null
+  isSave: boolean
+  handleSaveObject: (id: number) => void
+  handleDeleteObject: (id: number) => void
 }
+
+const ChosenObject = ({ chosenObject, isSave, handleDeleteObject, handleSaveObject }: IProps) => {
+
+  const [isSaveObject, setIsSaveObject] = useState(isSave)
+
+  useEffect(() => {
+    setIsSaveObject(isSave);
+  }, [isSave]);
+
+  function handleDeleteClick() {
+    handleDeleteObject(chosenObject?.id!)
+    setIsSaveObject(false)
+  }
+
+  function handleSaveClick() {
+    handleSaveObject(chosenObject?.id!)
+    setIsSaveObject(true)
+  }
+
+  return (
+    <div className="chosen-object-container">
+      <div className="chosen-object-img-container">
+        <img className='chosen-object-img' src={palceholderImg} alt="Chosen Object" />
+      </div>
+      <div>
+        <div className="title-container">
+          <h2 className="object-title">
+            {chosenObject?.name ? chosenObject.name : "Без названия"}
+          </h2>
+        </div>
+
+        <div className="description-container">
+          <p className="description">
+            {`Описание: ${chosenObject?.description ? chosenObject.description : " не указано"}`}
+          </p>
+          <p className="description">
+            {`Телефон: ${chosenObject?.phone ? chosenObject.phone : " не указан"}`}
+          </p>
+          <p className="description">
+            {`Адрес: ${chosenObject?.adress ? chosenObject.adress : " не указан"}`}
+          </p>
+
+          <p className="description">
+            <span>Сайт: {chosenObject?.website ? <a href={chosenObject.website}></a> : "не указан"} </span>
+          </p>
+        </div>
+      </div>
+      <div className="chosen-buttons-container">
+
+        <button
+          onClick={isSaveObject ? handleDeleteClick : handleSaveClick}
+          className={isSaveObject ? "chosen-save-button save" :
+            " chosen-save-button not-save "}>
+          <img className="save-button-img" src={activeSaveIcon} alt="Save Icon" />
+          <span className={isSaveObject ?"save-span":"none-save-span"}>Сохранено</span>
+        </button>
+
+        <button className="way-button">
+          <img className="way-button-img" src={wayIcon} alt="Way Icon" />
+          <span className="way-span">Маршрут</span>
+        </button>
+      </div>
+    </div >
+  );
+};
 
 export default ChosenObject;
