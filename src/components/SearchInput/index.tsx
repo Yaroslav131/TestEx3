@@ -1,0 +1,28 @@
+import searchIcon from '../../assets/imgs/searchInput.svg';
+
+import './styles.css';
+
+interface IProps {
+  handleSetObjectName: (name: string) => void
+}
+
+const SearchInput = (props:IProps) => {
+  function handleOnInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = event.target.value;
+
+    props.handleSetObjectName(inputValue)
+  }
+  return (
+    <div className="search-container">
+      <img className="search-icon" src={searchIcon} alt="search icon" />
+      <input
+        onChange={handleOnInputChange}
+        placeholder="Место, адрес..."
+        type="text"
+        className="search-input"
+      />
+    </div>
+  );
+}
+
+export default SearchInput;
