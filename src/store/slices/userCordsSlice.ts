@@ -1,26 +1,23 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserCoordsState {
-  value: [number, number]
+  value: [number, number] | null;
 }
 
 const initialState: UserCoordsState = {
-  value: [0, 0],
-}
+  value: null,
+};
 
 export const userCordsSlice = createSlice({
   name: 'radius',
   initialState,
   reducers: {
-    setCoords: (state, action: PayloadAction<[number,number]>) => {
-      state.value = action.payload
-    }
+    setCoords: (state, action: PayloadAction<[number, number]>) => {
+      state.value = action.payload;
+    },
   },
-})
+});
 
-export const { setCoords } = userCordsSlice.actions
+export const { setCoords } = userCordsSlice.actions;
 
-export const selectCount = (state: RootState) => state.userCords.value
-
-export default userCordsSlice.reducer
+export default userCordsSlice.reducer;

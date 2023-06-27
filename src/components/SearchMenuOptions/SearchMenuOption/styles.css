@@ -1,14 +1,7 @@
-@font-face {
-    font-family: 'Mont';
-    src: url('/src/assets/fonts/Mont/Mont-Bold.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
 .search-option {
     display: flex;
     align-items: center;
+    justify-content: start;
     margin-bottom: 10px;
     transition: 0.15s;
     cursor: pointer;
@@ -39,7 +32,9 @@
 }
 
 .option-description {
+    align-items: start;
     font-weight: 700;
     font-style: 14px;
-    font-family: Mont;
+    font-family: Mont-bold;
+ text-align: left;
 }

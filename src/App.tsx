@@ -1,16 +1,22 @@
-import {Provider} from "react-redux"
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import './globalStyles.css'
-import store from "../src/store/store"
-import MainPage from './pages/mainPage'
+import store from '../src/store/store';
+import MainPage from './pages/mainPage';
 
-function App() {
+import './globalStyles.css';
+import ErrorBoundary from './components/ErrorBoundary';
+
+const App = () => {
   return (
     <Provider store={store}>
-   <MainPage/>
-   </Provider>
-
-  )
+      <ErrorBoundary>
+        <MainPage />
+        <ToastContainer />
+      </ErrorBoundary>
+    </Provider>
+  );
 }
 
-export default App
+export default App;

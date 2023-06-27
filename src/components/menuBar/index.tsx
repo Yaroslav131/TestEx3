@@ -1,97 +1,122 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
 
-import logo from "../../assets/imgs/logo.svg"
-import save from "../../assets/imgs/save.svg"
-import search from "../../assets/imgs/search.svg"
-import activeSave from '../../assets/imgs/activeSave.svg'
-import activeSearch from '../../assets/imgs/activeSearch.svg'
-import singOut from "../../assets/imgs/singOut.svg"
-import SlideMenu from '../slideMenu';
-import SearchMenu from '../searchMenu';
+import images from '../../images';
+import SlideMenu from './SlideMenu';
+import SearchMenu from '../SearchMenu';
+import { useAppSelector } from '../../store/hooks';
+import SaveMenu from '../SaveMenu';
 
-import './styles.css'
+import './styles.css';
+import AuthButton from './AuthButton/indexx';
+import { toast } from 'react-toastify';
 
-export default function MenuBar() {
-    const [isSlideMenuOpen, SetIsSlideMenuOpen] = useState(false)
-    const [slideMenuСontent, SetSlideMenuСontent] = useState<JSX.Element | null>(null)
-    const [isSearchButtonActive, SetIsSearchButtonActive] = useState(false)
-    const [isSaveButtonActive, SetIsSaveButtonActive] = useState(false)
+const MenuBar = () => {
+  const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
+  const [slideMenuContent, setSlideMenuContent] = useState<JSX.Element | null>(null);
+  const [isSearchButtonActive, setIsSearchButtonActive] = useState(false);
+  const [isSaveButtonActive, setIsSaveButtonActive] = useState(false);
+  const [user, setUser] = useState<firebase.User | null>(null);
 
-    function handleDisableAllMenuButton() {
-        SetIsSaveButtonActive(false)
+  const isChosenObjPicked = useAppSelector(
+    (state) => state.isChosenObjPicked.value
+  );
 
-        SetIsSearchButtonActive(false)
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (isChosenObjPicked[0]) {
+      disableAllMenuButtons();
+      setIsSaveButtonActive(true);
+      setIsSlideMenuOpen(true);
+      setSlideMenuContent(<SaveMenu />);
     }
+  }, [isChosenObjPicked[0]]);
 
-    function handleCloseSlideMenu() {
-        SetIsSlideMenuOpen(false)
+  function disableAllMenuButtons() {
+    setIsSaveButtonActive(false);
+    setIsSearchButtonActive(false);
+  }
 
-        handleDisableAllMenuButton()
+  function handleCloseSlideMenu() {
+    setIsSlideMenuOpen(false);
+    disableAllMenuButtons();
+  }
+
+  function handleOpenSlideMenu(event: React.MouseEvent<HTMLButtonElement>) {
+    const buttonName = event.currentTarget.name;
+
+    if (buttonName === 'searchButton') {
+      disableAllMenuButtons();
+      setIsSearchButtonActive(true);
+      setSlideMenuContent(<SearchMenu />);
+      setIsSlideMenuOpen(true);
+    } else if (buttonName === 'saveButton' || isChosenObjPicked) {
+      if (user) {
+        disableAllMenuButtons();
+        setIsSaveButtonActive(true);
+        setSlideMenuContent(<SaveMenu />);
+        setIsSlideMenuOpen(true);
+      }
+      else
+      {
+        disableAllMenuButtons();
+        toast.error("Сперва вам надо авторизироваться")
+      }
     }
+  }
 
-    function handleSlideMenuOpen(event: React.MouseEvent<HTMLButtonElement>) {
-        const buttonName = event.currentTarget.name;
+  return (
+    <menu className="nav-menu">
+      <div className="static-menu">
+        <div className="top-button-container">
+          <img src={images.logo} className="menu-item logo-img" alt="App logo" />
+          <button
+            name="searchButton"
+            onClick={handleOpenSlideMenu}
+            className={
+              isSearchButtonActive
+                ? 'active-menu-button menu-item'
+                : 'menu-button search-button menu-item'
+            }
+          >
+            <img
+              src={isSearchButtonActive ? images.activeSearch : images.search}
+              className="menu-img"
+              alt=""
+            />
+          </button>
+          <button
+            name="saveButton"
+            onClick={handleOpenSlideMenu}
+            className={
+              isSaveButtonActive
+                ? 'active-menu-button menu-item'
+                : 'menu-button saved-button menu-item'
+            }
+          >
+            <img
+              src={isSaveButtonActive ? images.activeSave : images.save}
+              className="menu-img"
+              alt=""
+            />
+          </button>
+        </div>
+        <AuthButton handleCloseSlideMenu={handleCloseSlideMenu} />
+      </div>
+      <SlideMenu
+        isOpen={isSlideMenuOpen}
+        content={slideMenuContent}
+        handleCloseMenu={handleCloseSlideMenu}
+      />
+    </menu>
+  );
+};
 
-        if (buttonName === "searchButton") {
-
-            handleDisableAllMenuButton();
-
-            SetIsSearchButtonActive(true)
-
-            SetSlideMenuСontent(
-                <SearchMenu />);
-
-        } else if (buttonName === "saveButton") {
-
-            handleDisableAllMenuButton();
-
-            SetIsSaveButtonActive(true)
-
-            SetSlideMenuСontent(<></>);
-        }
-
-        SetIsSlideMenuOpen(true);
-    }
-
-    return (
-        <menu className="nav-menu">
-            <div className='static-menu'>
-                <div className='top-button-container'>
-                    <img src={logo} className="menu-item  logo-img" alt="App logo" />
-                    <button
-                        name='searchButton'
-                        onClick={handleSlideMenuOpen}
-                        className={isSearchButtonActive ?
-                            "active-menu-button menu-item" :
-                            "menu-button search-button menu-item"}>
-                        <div className="img-container">
-                            <img src={isSearchButtonActive ? activeSearch : search}
-                                className="menu-img" alt="" />
-                        </div>
-                    </button>
-                    <button
-                        name='saveButton'
-                        onClick={handleSlideMenuOpen}
-                        className={isSaveButtonActive ?
-                            "active-menu-button menu-item" :
-                            "menu-button saved-button menu-item"}>
-                        <div className="img-container">
-                            <img src={isSaveButtonActive ? activeSave : save}
-                                className="menu-img"
-                                alt="" />
-                        </div>
-                    </button>
-                </div>
-                <button className="menu-button sing-button menu-item ">
-                    <div className="img-container">
-                        <img src={singOut} className="user-img" alt="" />
-                    </div>
-                </button>
-            </div>
-            <SlideMenu
-                isOpen={isSlideMenuOpen}
-                content={slideMenuСontent}
-                handleCloseSlideMenu={handleCloseSlideMenu} />
-        </menu >
-    )
-}
+export default MenuBar;

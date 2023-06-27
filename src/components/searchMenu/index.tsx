@@ -1,49 +1,66 @@
-import SearcOptions from "../searchOptions";
-import InputRadius from "../radiusInput";
-import search from "../../assets/imgs/search.svg"
-import SearchInput from '../searchInput';
-import { getObjectByTags, getObjectByName } from "../../api/overpassApi";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setGeoObjects } from "../../store/slices/geoObjectsSlice";
+import { useState } from "react"
 
-import './styles.css'
+import SearchMenuOptions from '../SearchMenuOptions';
+import InputRadius from '../RadiusInput';
+import search from '../../assets/imgs/search.svg';
+import SearchInput from '../SearchInput';
+import { getObjectByTags, getObjectByName } from '../../api/overpassApi';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
+import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
+import { userSearchTag } from '../../config';
 
-function SearchMenu() {
-    const dispatch = useAppDispatch()
-    const name = useAppSelector((state) => state.objectName.value)
-    const tags = useAppSelector((state) => state.tags.value)
-    const userCoords = useAppSelector((state) => state.userCords.value)
-    const radius = useAppSelector((state) => state.radius.value)
+import './styles.css';
 
-    function makeMapObjectRequest() {
-        if (name != "") {
-            getObjectByName(name).then((result) => {
-                dispatch(setGeoObjects(result))
-            })
-        }
-        else {
-            if (tags.length != 0) {
-                getObjectByTags(tags, userCoords, radius).then((result) => {
-                    dispatch(setGeoObjects(result))
-                })
-            }
-        }
+const SearchMenu = () => {
+  const dispatch = useAppDispatch();
+  const tags = useAppSelector((state) => state.tags.value);
+  const userCoords = useAppSelector((state) => state.userCords.value);
+  const radius = useAppSelector((state) => state.radius.value);
+  const [objectName, setObjectName] = useState<string>('')
+  const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
+
+  function handleSetObjectName(name: string) {
+    setObjectName(name)
+  }
+
+  function makeMapObjectRequest() {
+    if (objectName != '') {
+      dispatch(setIsLoading(true))
+
+      getObjectByName(objectName, userSearchTag).then((result) => {
+        dispatch(setGeoObjects(result));
+
+        dispatch(setIsLoading(false))
+      });
+    } else if (tags.length != 0) {
+      dispatch(setIsLoading(true))
+
+      userCoords && getObjectByTags(tags, userCoords, radius).then((result) => {
+        dispatch(setGeoObjects(result));
+
+        dispatch(setIsLoading(false))
+      });
     }
 
-    return (
-        <div className="search-menu">
-            <div>
-                <SearchInput />
-                <label className="option-label">Искать:</label>
-                <SearcOptions />
-                <label className="option-label">В радиусе:</label>
-                <InputRadius />
-            </div>
-            <button onClick={makeMapObjectRequest} className="seach-button">
-                <img src={search} alt="search button" />
-            </button>
-        </div>
-    );
+
+  }
+
+  return (
+    <div className="search-menu">
+      <div>
+        <SearchInput handleSetObjectName={handleSetObjectName} />
+        <h2 className="option-title">Искать:</h2>
+        <SearchMenuOptions />
+        <h2 className="option-title">В радиусе:</h2>
+        <InputRadius />
+      </div>
+      <button onClick={makeMapObjectRequest}
+        className={isLoading ? "seach-button disabled-button" : "seach-button "}>
+        <img src={search} alt="search button" />
+      </button>
+    </div>
+  );
 }
 
 export default SearchMenu;

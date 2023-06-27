@@ -1,29 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../store';
 
 interface TagsSliceState {
-  value: string[]
+  value: string[];
 }
 
 const initialState: TagsSliceState = {
   value: [],
-}
+};
 
 export const tagsSlice = createSlice({
   name: 'tags',
   initialState,
   reducers: {
     addTag: (state, action: PayloadAction<string>) => {
-      state.value.push(action.payload)
+      state.value.push(action.payload);
     },
     deleteTag: (state, action: PayloadAction<string>) => {
-      state.value.splice(state.value.indexOf(action.payload), 1)
-    }
+      state.value.splice(state.value.indexOf(action.payload), 1);
+    },
   },
-})
+});
 
-export const { deleteTag, addTag } = tagsSlice.actions
+export const { deleteTag, addTag } = tagsSlice.actions;
 
-export const selectCount = (state: RootState) => state.tags.value
-
-export default tagsSlice.reducer
+export default tagsSlice.reducer;
