@@ -51,8 +51,8 @@
 
 .chosen-buttons-container {
     display: flex;
-   justify-content: space-between;
-   
+    justify-content: space-between;
+
 }
 
 .way-button {
@@ -106,8 +106,7 @@
     margin-left: 5px;
 }
 
-.none-save-span
-{
+.none-save-span {
     display: none;
 }
 
@@ -139,7 +138,7 @@
     }
 }
 
-#disable-save-button
-{
-   visibility: hidden;
+#disable-item{
+    display: none;
+
 }
