@@ -1,23 +1,29 @@
 export function getUserGeolocation(): Promise<{
   latitude: number;
   longitude: number;
-  cancelGeolocation: () => void;
 }> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          resolve({ latitude, longitude, cancelGeolocation });
-        },
-        (error) => {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === 'granted') {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const { latitude, longitude } = position.coords;
+                resolve({ latitude, longitude });
+              },
+              (error) => {
+                reject(error);
+              }
+            );
+          } else {
+            reject(new Error('Geolocation permission denied.'));
+          }
+        })
+        .catch((error) => {
           reject(error);
-        }
-      );
-
-      function cancelGeolocation() {
-        navigator.geolocation.clearWatch(watchId);
-      }
+        });
     } else {
       reject(new Error('Geolocation is not supported by this browser.'));
     }

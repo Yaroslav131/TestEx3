@@ -79,3 +79,7 @@ export const userPlacemarkOptions = {
 };
 
 export const mapDefaulteCoords = [55.44, 37.36];
+
+export const defaulteRadius = 1000;
+
+export const timeoutDuration = 5000; 
