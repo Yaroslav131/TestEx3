@@ -1,8 +1,6 @@
 import { YMaps, Map, Circle, Placemark } from '@pbe/react-yandex-maps';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-
 
 import CustomPlacemark from '../GeoObjectPlacemark';
 import { getObjectByTags } from '../../api/overpassApi';
