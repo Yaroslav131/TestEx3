@@ -53,6 +53,9 @@
     cursor: pointer;
     border-radius: 5px;
     transition: 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-button:hover,
@@ -76,14 +79,3 @@
     border: none;
 }
 
-.sing-button {
-
-    border: none;
-    background-color: #808080;
-}
-
-.img-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}

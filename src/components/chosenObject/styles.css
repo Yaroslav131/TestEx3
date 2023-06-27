@@ -138,3 +138,8 @@
         width: 40px;
     }
 }
+
+#disable-save-button
+{
+   visibility: hidden;
+}
