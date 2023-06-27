@@ -7,6 +7,7 @@ import { closeChosenObj } from '../../store/slices/isChosenObjPickedSlice';
 import ChosenObject from '../ChosenObject';
 import IGeoObject from '../../types/IGeoObject';
 import { getObjectById } from '../../api/overpassApi';
+import { addUserSavedId, getCurrentUserSavedId, removeUserSavedId } from '../../api/firebaseApi';
 
 import './styles.css';
 
@@ -18,6 +19,8 @@ const SaveMenu = () => {
     (state) => state.isChosenObjPicked.value
   );
   const [savedObjects, setSavedObjects] = useState<JSX.Element[]>([]);
+  const [savedMenuContent, setSavedMenuContent] = useState<JSX.Element>(<></>);
+
   const handleBackClick = () => {
     dispatch(closeChosenObj());
   };
@@ -33,6 +36,16 @@ const SaveMenu = () => {
 
     handleSetSevedObjects()
   }, [savedObjectsId]);
+
+  useEffect(() => {
+    async function fetchDate() {
+      const savedId = await getCurrentUserSavedId()
+
+      setSavedObjectsId(savedId)
+    }
+
+    fetchDate()
+  }, []);
 
 
   useEffect(() => {
@@ -52,6 +65,8 @@ const SaveMenu = () => {
       const newSavedObjectsId = prevSavedObjectsId.filter(x => x !== id);
       return newSavedObjectsId;
     });
+
+    removeUserSavedId(id)
   }
 
   function handleSaveObjectId(id: number) {
@@ -59,6 +74,8 @@ const SaveMenu = () => {
       const newSavedObjectsId = [...prevSavedObjectsId, id];
       return newSavedObjectsId;
     });
+
+    addUserSavedId(id)
   }
 
   return (

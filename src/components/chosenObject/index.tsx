@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
 
+import { auth } from '../../firebase';
 import activeSaveIcon from '../../assets/imgs/activeSave.svg';
 import wayIcon from '../../assets/imgs/way.svg';
 import palceholderImg from '../../assets/imgs/imagePlaceholder.png';
 import IGeoObject from '../../types/IGeoObject';
+import firebase from 'firebase/compat/app';
 
 import './styles.css';
 
@@ -15,8 +17,21 @@ interface IProps {
 }
 
 const ChosenObject = ({ chosenObject, isSave, handleDeleteObject, handleSaveObject }: IProps) => {
-
   const [isSaveObject, setIsSaveObject] = useState(isSave)
+  const [user, setUser] = useState<firebase.User | null>(null);
+
+  useEffect(() => {
+    setIsSaveObject(isSave);
+  }, [isSave]);
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   useEffect(() => {
     setIsSaveObject(isSave);
@@ -62,12 +77,12 @@ const ChosenObject = ({ chosenObject, isSave, handleDeleteObject, handleSaveObje
       </div>
       <div className="chosen-buttons-container">
 
-        <button
+        <button id={!user ? "disable-save-button" : ""}
           onClick={isSaveObject ? handleDeleteClick : handleSaveClick}
           className={isSaveObject ? "chosen-save-button save" :
             " chosen-save-button not-save "}>
           <img className="save-button-img" src={activeSaveIcon} alt="Save Icon" />
-          <span className={isSaveObject ?"save-span":"none-save-span"}>Сохранено</span>
+          <span className={isSaveObject ? "save-span" : "none-save-span"}>Сохранено</span>
         </button>
 
         <button className="way-button">

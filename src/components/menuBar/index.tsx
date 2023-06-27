@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
 
 import images from '../../images';
-import singOut from '../../assets/imgs/singOut.svg';
 import SlideMenu from './SlideMenu';
 import SearchMenu from '../SearchMenu';
 import { useAppSelector } from '../../store/hooks';
 import SaveMenu from '../SaveMenu';
 
 import './styles.css';
+import AuthButton from './AuthButton/indexx';
 
 const MenuBar = () => {
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
-  const [slideMenuContent, setSlideMenuContent] = useState<JSX.Element | null>(
-    null
-  );
+  const [slideMenuContent, setSlideMenuContent] = useState<JSX.Element | null>(null);
   const [isSearchButtonActive, setIsSearchButtonActive] = useState(false);
   const [isSaveButtonActive, setIsSaveButtonActive] = useState(false);
 
@@ -38,6 +36,7 @@ const MenuBar = () => {
   function handleCloseSlideMenu() {
     setIsSlideMenuOpen(false);
     disableAllMenuButtons();
+    setSlideMenuContent(null)
   }
 
   function handleOpenSlideMenu(event: React.MouseEvent<HTMLButtonElement>) {
@@ -70,13 +69,11 @@ const MenuBar = () => {
                 : 'menu-button search-button menu-item'
             }
           >
-            <div className="img-container">
-              <img
-                src={isSearchButtonActive ? images.activeSearch : images.search}
-                className="menu-img"
-                alt=""
-              />
-            </div>
+            <img
+              src={isSearchButtonActive ? images.activeSearch : images.search}
+              className="menu-img"
+              alt=""
+            />
           </button>
           <button
             name="saveButton"
@@ -87,20 +84,14 @@ const MenuBar = () => {
                 : 'menu-button saved-button menu-item'
             }
           >
-            <div className="img-container">
-              <img
-                src={isSaveButtonActive ? images.activeSave : images.save}
-                className="menu-img"
-                alt=""
-              />
-            </div>
+            <img
+              src={isSaveButtonActive ? images.activeSave : images.save}
+              className="menu-img"
+              alt=""
+            />
           </button>
         </div>
-        <button className="menu-button sing-button menu-item ">
-          <div className="img-container">
-            <img src={singOut} className="user-img" alt="" />
-          </div>
-        </button>
+        <AuthButton handleCloseSlideMenu={handleCloseSlideMenu} />
       </div>
       <SlideMenu
         isOpen={isSlideMenuOpen}
