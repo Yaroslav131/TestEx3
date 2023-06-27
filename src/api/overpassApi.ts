@@ -1,5 +1,6 @@
 import IGeoObject from '../types/IGeoObject';
-import { geoIcons } from '../config';
+import { geoIcons, timeoutDuration } from '../config';
+import { toast } from 'react-toastify';
 
 export async function getObjectByName(
   name: string,
@@ -8,12 +9,15 @@ export async function getObjectByName(
   const geoObjects: IGeoObject[] = [];
 
   const geoObjectsData = await fetchOverpassApiDataByNameAddress(name);
+
   if (geoObjectsData) {
     const mappedGeoObjects = parseToGeoObjects(geoObjectsData, tag);
     geoObjects.push(...mappedGeoObjects);
   }
 
   console.log(geoObjects);
+  toast.success(`Найдено ${geoObjects.length} объектов.`);
+
   return geoObjects;
 }
 
@@ -47,20 +51,32 @@ export async function getObjectByTags(
   console.log(searchRadius);
 
   for (const tag of tags) {
-    const geoObjectsData = await fetchOverpassApiDataByLocation(
-      tag,
-      searchRadius,
-      latitude,
-      longitude
-    );
-    if (geoObjectsData) {
-      const mappedGeoObjects = parseToGeoObjects(geoObjectsData, tag);
-      geoObjects.push(...mappedGeoObjects);
+    try {
+      const geoObjectsData = await fetchOverpassApiDataByLocation(
+        tag,
+        searchRadius,
+        latitude,
+        longitude
+      );
+      if (geoObjectsData) {
+        const mappedGeoObjects = parseToGeoObjects(geoObjectsData, tag);
+        geoObjects.push(...mappedGeoObjects);
+      }
+
     }
+    catch (error: any) {
+      if (error.name === 'AbortError') {
+        toast.error('Время ожидания запроса истекло.Возможно вы указали слишком большой диаказон поиска. Попробуйте снова.');
+        return geoObjects;
+      } else {
+        toast.error('Не удалось найти объект. Попробуйте снова.');
+      }
+    }
+
   }
 
   console.log(geoObjects);
-
+  toast.success(`Найдено ${geoObjects.length} объектов.`);
   return geoObjects;
 }
 
@@ -89,29 +105,34 @@ const fetchOverpassApiDataByLocation = async (
   radius: number,
   latitude: number,
   longitude: number
-) => {
-  try {
-    const query = `[out:json];
+): Promise<any[] | undefined> => {
+  const controller = new AbortController();
+  const query = `[out:json];
     (
       node[${tag}](around:${radius},${latitude},${longitude});
     );
     out center;`;
 
-    const response = await fetch(
-      `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(
-        query
-      )}`
-    );
 
-    if (response.ok) {
-      const data = await response.json();
-      return data.elements;
-    }
-    console.error('Error fetching sightseeing data');
-  } catch (error) {
-    console.error('Error fetching sightseeing data:', error);
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, timeoutDuration);
+  const response = await fetch(
+    `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`,
+    { signal: controller.signal }
+  );
+
+  clearTimeout(timeoutId);
+
+  if (response.ok) {
+    const data = await response.json();
+    return data.elements as any[];
   }
+
+  toast.error('Не удалось найти объект. Попробуйте снова.');
+  return undefined;
 };
+
 
 const fetchOverpassApiDataByNameAddress = async (name: string) => {
   try {
@@ -129,11 +150,16 @@ const fetchOverpassApiDataByNameAddress = async (name: string) => {
 
     if (response.ok) {
       const data = await response.json();
+
+      toast.success(`Найдено ${data.elements.length} объектов.`);
+
       return data.elements;
     }
-    console.error('Error fetching sightseeing data');
-  } catch (error) {
-    console.error('Error fetching sightseeing data:', error);
+
+    toast.error('Не удалось найти объкт. Попробуйте сново.')
+  }
+  catch (error) {
+    toast.error('Не удалось найти объкт. Попробуйте сново.')
   }
 };
 
@@ -155,8 +181,9 @@ const fetchOverpassApiDataById = async (id: number) => {
       const data = await response.json();
       return data.elements;
     }
-    console.error('Error fetching sightseeing data');
+    toast.error('Не удалось найти объкт. Попробуйте сново.')
+
   } catch (error) {
-    console.error('Error fetching sightseeing data:', error);
+    toast.error('Не удалось найти объкт. Попробуйте сново..')
   }
 };
