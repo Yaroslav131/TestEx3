@@ -1,10 +1,11 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import signOutImg from '../../../assets/imgs/singOut.svg';
 import { auth, googleProvider } from '../../../firebase';
 import { addOrUpdateUser } from '../../../api/firebaseApi'
 
 import './styles.css';
+import { toast } from 'react-toastify';
 
 interface Iprops {
     handleCloseSlideMenu: () => void
@@ -34,9 +35,10 @@ const AuthButton = (props: Iprops) => {
                 const avatar = result?.user?.photoURL;
                 setUserAvatar(avatar!);
                 addOrUpdateUser(result.user);
+                toast.success(`Добро пажаловать ${result.user?.displayName}`);
             })
-            .catch((error) => {
-                // Обработка ошибки авторизации Google
+            .catch(() => {
+                toast.error(`Упс, что то пошло не так. Попробуйте снова)`);
             });
     };
 
@@ -46,19 +48,19 @@ const AuthButton = (props: Iprops) => {
                 setIsAuthenticated(false);
                 setUserAvatar(signOutImg);
             })
-            .catch((error) => {
-                // Обработка ошибки выхода
+            .catch(() => {
+                toast.error(`Упс, что то пошло не так. Попробуйте снова)`);
             });
 
-            props.handleCloseSlideMenu()
+        props.handleCloseSlideMenu()
     };
 
     return (
         <button
-            onClick={isAuthenticated ? handleSignOut: handleGoogleSignIn}
-className = { isAuthenticated? 'sing-button singOut-button': 'sing-button singIn-button' }
-    >
-    <img src={userAvatar} className="user-img" alt="" />
+            onClick={isAuthenticated ? handleSignOut : handleGoogleSignIn}
+            className={isAuthenticated ? 'sing-button singOut-button' : 'sing-button singIn-button'}
+        >
+            <img src={userAvatar} className="user-img" alt="" />
         </button >
     );
 };

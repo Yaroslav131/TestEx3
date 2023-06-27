@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import './styles.css';
+import { useAppSelector } from '../../../store/hooks';
 
 interface Iprops {
   theme: string;
@@ -9,14 +10,27 @@ interface Iprops {
   handleSetSelectedAttractionTag: (selectedAttraction: string) => void;
 }
 
-const SearchMenuOption = ({theme,optionIcon,description,handleSetSelectedAttractionTag}: Iprops) => {
+const SearchMenuOption = ({ theme, optionIcon, description, handleSetSelectedAttractionTag }: Iprops) => {
   const [isSelected, setIsSelected] = useState(false);
+  const tags = useAppSelector((state) => state.tags.value);
 
   function handleOptionClick() {
     isSelected ? setIsSelected(false) : setIsSelected(true);
 
     handleSetSelectedAttractionTag(theme);
   }
+
+  useEffect(() => {
+    const attractionIndex = tags.indexOf(theme);
+
+    if (attractionIndex == -1) {
+      setIsSelected(false)
+    } else {
+      setIsSelected(true)
+    }
+
+  }, [])
+
 
   return (
     <button
