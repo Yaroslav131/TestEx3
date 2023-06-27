@@ -1,0 +1,144 @@
+.chosen-object-container {
+    border-color: #c7c7c7;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+
+.chosen-object-img-container {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    border: #c7c7c7;
+    border-width: 1px;
+    border-style: solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.object-title {
+    white-space: normal;
+}
+
+.description {
+    font-size: 14px;
+    color: #686868;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.to-object-button,
+.unsave-button-img {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.chose-object-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chosen-buttons-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.way-button {
+    grid-column: 6;
+    background-color: #5E7BC7;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 105px;
+    justify-content: space-between;
+    cursor: pointer;
+    grid-column: 3;
+    height: 40px;
+}
+
+.save-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chosen-save-button {
+    background-color: transparent;
+
+    border-radius: 5px;
+    border: solid;
+    border-width: 2px;
+    border-color: #aaaaaa;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.15s;
+    transition-property: opacity;
+    height: 40px;
+    width: 40px;
+
+}
+
+.save {
+    border-color: #808080;
+    width: 120px;
+    opacity: 0.5;
+}
+
+.save-span {
+    margin-left: 5px;
+}
+
+.none-save-span {
+    display: none;
+}
+
+.way-span {
+    font-family: Mont;
+    color: white;
+}
+
+.save-span {
+    font-family: Mont-bold;
+    color: rgb(0, 0, 0);
+}
+
+.chosen-object-img {
+    max-height: 100%;
+    max-width: 100%;
+
+}
+
+
+@media (max-width: 500px) {
+    .save-span {
+        display: none;
+    }
+
+    .save {
+        height: 40px;
+        width: 40px;
+    }
+}
+
+#disable-item{
+    display: none;
+
+}
