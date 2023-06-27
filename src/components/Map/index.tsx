@@ -29,7 +29,7 @@ const MapComponent = () => {
   const geoObjects = useAppSelector((state) => state.geoObjects.value);
   const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
 
-
+ 
 
   useEffect(() => {
     setMapObjects(geoObjects)
@@ -66,7 +66,8 @@ const MapComponent = () => {
       setMapObjects(geoObjects);
 
     } catch (error) {
-      toast.error(`Нам не удалось получить ваше местоположение. Возможно у вал отключина гео лакация.`);
+      console.log(error)
+      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключина гео лакация.`);
     }
     finally {
       dispatch(setIsLoading(false))
@@ -108,6 +109,7 @@ const MapComponent = () => {
               }}
             />
           )}
+
 
           <button onClick={updateMap}
             className={isLoading ? "location-button disabled-button" : "location-button"} >

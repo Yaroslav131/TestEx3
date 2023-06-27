@@ -40,7 +40,9 @@
 //         );
 
 //         setCurrent(true);
+
 //         mapRef!.current!.geoObjects.add(routeRef!.current);
+
 //     }, [lat, lon, mapRef, routeRef, place, ymaps]);
 
 
