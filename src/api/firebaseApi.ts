@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { db, auth } from '../firebase';
 import firebase from 'firebase/compat/app';
 
@@ -21,21 +22,20 @@ export const getCurrentUserSavedId = (): Promise<number[]> => {
                 .then((doc) => {
                     if (doc.exists) {
                         const userData = doc.data() as User;
-                        console.log("Current User:", userData);
                         const savedId = userData.savedId || [];
-                        console.log("Saved IDs:", savedId);
+
                         resolve(savedId);
                     } else {
-                        console.log("User does not exist");
+                        toast.error("Пользователя не существует.")
                         resolve([]);
                     }
                 })
                 .catch((error) => {
-                    console.error("Error getting current user: ", error);
+                    toast.error("Пользователя не существует.")
                     reject(error);
                 });
         } else {
-            console.log("No user is currently signed in");
+            toast.error("Пользователь не авторизирован.")
             resolve([]);
         }
     });
@@ -54,19 +54,12 @@ export const addOrUpdateUser = (user: any) => {
         userRef.get()
             .then((docSnapshot) => {
                 if (docSnapshot.exists) {
-                    console.log('User already exists with ID: ', newUser.id);
                 } else {
                     userRef.set(newUser)
-                        .then(() => {
-                            console.log('User added with ID: ', newUser.id);
-                        })
-                        .catch((error) => {
-                            console.error('Error adding user: ', error);
-                        });
                 }
             })
-            .catch((error) => {
-                console.error('Error checking user existence: ', error);
+            .catch(() => {
+                toast.error("Пользователя не существует.")
             });
     }
 };
@@ -84,15 +77,13 @@ export const addUserSavedId = (index: number): Promise<void> => {
                     savedId: firebase.firestore.FieldValue.arrayUnion(index),
                 })
                 .then(() => {
-                    console.log("Index added to savedId array:", index);
                     resolve();
                 })
                 .catch((error) => {
-                    console.error("Error adding index to savedId array: ", error);
                     reject(error);
                 });
         } else {
-            console.log("No user is currently signed in");
+            toast.error("Пользователя не существует.")
             resolve();
         }
     });
@@ -111,15 +102,13 @@ export const removeUserSavedId = (index: number): Promise<void> => {
                     savedId: firebase.firestore.FieldValue.arrayRemove(index),
                 })
                 .then(() => {
-                    console.log("Index removed from savedId array:", index);
                     resolve();
                 })
                 .catch((error) => {
-                    console.error("Error removing index from savedId array: ", error);
                     reject(error);
                 });
         } else {
-            console.log("No user is currently signed in");
+            toast.error("Пользователя не существует.")
             resolve();
         }
     });
