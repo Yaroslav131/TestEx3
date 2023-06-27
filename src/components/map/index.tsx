@@ -1,6 +1,8 @@
 import { YMaps, Map, Circle, Placemark } from '@pbe/react-yandex-maps';
-
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+
 
 import CustomPlacemark from '../GeoObjectPlacemark';
 import { getObjectByTags } from '../../api/overpassApi';
@@ -10,6 +12,7 @@ import {
   attractionsTags,
   userPlacemarkOptions,
   mapDefaulteCoords,
+  defaulteRadius,
 } from '../../config';
 import { setCoords } from '../../store/slices/userCordsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -17,6 +20,8 @@ import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
 import locFilled from '../../assets/imgs/tablerLocationFilled.svg';
 
 import './styles.css';
+import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
+
 
 const MapComponent = () => {
   const dispatch = useAppDispatch();
@@ -24,11 +29,13 @@ const MapComponent = () => {
   const userCoords = useAppSelector((state) => state.userCords.value);
   const userRadius = useAppSelector((state) => state.radius.value);
   const geoObjects = useAppSelector((state) => state.geoObjects.value);
+  const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
+
+
 
   useEffect(() => {
     setMapObjects(geoObjects)
   }, [geoObjects])
-
 
   const setMapObjects = (geoObjects: IGeoObject[]) => {
     const placemarks: JSX.Element[] = geoObjects.map((geoObject, index) => {
@@ -47,19 +54,24 @@ const MapComponent = () => {
 
   const updateMap = async () => {
     try {
+      dispatch(setIsLoading(true))
       const coords = await getUserGeolocation();
-      await dispatch(setCoords([coords.latitude, coords.longitude]));
+      dispatch(setCoords([coords.latitude, coords.longitude]));
 
       const geoObjects = await getObjectByTags(
         attractionsTags,
         [coords.latitude, coords.longitude],
-        userRadius
+        defaulteRadius
       );
 
       await dispatch(setGeoObjects(geoObjects));
       setMapObjects(geoObjects);
+
     } catch (error) {
-      console.error('Error fetching data:', error);
+      toast.error(`Нам не удалось получить ваше местоположение. Возможно у вал отключина гео лакация.`);
+    }
+    finally {
+      dispatch(setIsLoading(false))
     }
   };
 
@@ -72,9 +84,14 @@ const MapComponent = () => {
       }}
     >
       <div className="map-container">
+        {isLoading && (
+          <div id="loadingOverlay">
+            <div className="loadingSpinner"></div>
+          </div>
+        )}
         <Map
-          defaultState={{ center: mapDefaulteCoords, zoom: 15 }}
-          state={{ center: userCoords || mapDefaulteCoords, zoom: 15 }}
+          defaultState={{ center: mapDefaulteCoords, zoom: 14 }}
+          state={{ center: userCoords || mapDefaulteCoords, zoom: 14 }}
           width="100%"
           height="100%"
         >
@@ -94,12 +111,13 @@ const MapComponent = () => {
             />
           )}
 
-          <button className="location-button" onClick={updateMap}>
+          <button onClick={updateMap}
+            className={isLoading ? "location-button disabled-button" : "location-button"} >
             <img src={locFilled} alt="геолакация" />
           </button>
         </Map>
       </div>
-    </YMaps>
+    </YMaps >
   );
 };
 

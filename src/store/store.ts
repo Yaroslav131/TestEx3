@@ -3,12 +3,13 @@ import radiusSlice from './slices/radiusSlice';
 import userCordsSlice from './slices/userCordsSlice';
 import geoObjectsSlice from './slices/geoObjectsSlice';
 import tagsSlice from './slices/tagsSlice';
-
 import isChosenObjPickedSlice from './slices/isChosenObjPickedSlice';
 import savedObjectsIdSlice from './slices/savedObjectsIdSlice';
+import loadingObjectsSlice from './slices/loadingObjectsSlice';
 
 const store = configureStore({
   reducer: {
+    isLoadingObjects: loadingObjectsSlice,
     radius: radiusSlice,
     userCords: userCordsSlice,
     geoObjects: geoObjectsSlice,
