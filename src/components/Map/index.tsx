@@ -11,8 +11,7 @@ import {
   userPlacemarkOptions,
   mapDefaulteCoords,
   defaulteRadius,
-  MapContext,
-  routePlacemarkOptions,
+  MapContext
 } from '../../config';
 import { setCoords } from '../../store/slices/userCordsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
