@@ -55,22 +55,6 @@
 
 }
 
-.way-button {
-    grid-column: 6;
-    background-color: #5E7BC7;
-    padding: 7px;
-    border-radius: 5px;
-    border: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 105px;
-    justify-content: space-between;
-    cursor: pointer;
-    grid-column: 3;
-    height: 40px;
-}
-
 .save-button-container {
     display: flex;
     align-items: center;
@@ -79,7 +63,6 @@
 
 .chosen-save-button {
     background-color: transparent;
-
     border-radius: 5px;
     border: solid;
     border-width: 2px;
