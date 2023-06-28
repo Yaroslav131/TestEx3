@@ -6,9 +6,11 @@ import tagsSlice from './slices/tagsSlice';
 import isChosenObjPickedSlice from './slices/isChosenObjPickedSlice';
 import savedObjectsIdSlice from './slices/savedObjectsIdSlice';
 import loadingObjectsSlice from './slices/loadingObjectsSlice';
+import isPickedRoutePlaceSlice from "./slices/isPickedRoutePlaceSlice"
 
 const store = configureStore({
   reducer: {
+    pickedRoutePlace: isPickedRoutePlaceSlice,
     isLoadingObjects: loadingObjectsSlice,
     radius: radiusSlice,
     userCords: userCordsSlice,

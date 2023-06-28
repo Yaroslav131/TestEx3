@@ -7,13 +7,21 @@ import MainPage from './pages/mainPage';
 
 import './globalStyles.css';
 import ErrorBoundary from './components/ErrorBoundary';
+import { YMaps } from '@pbe/react-yandex-maps';
 
 const App = () => {
   return (
     <Provider store={store}>
       <ErrorBoundary>
-        <MainPage />
-        <ToastContainer />
+        <YMaps
+          query={{
+            lang: 'en_RU',
+            apikey: "18f172d7-21c0-4d35-bac0-a89f15490ad1",
+          }}
+        >
+          <MainPage />
+          <ToastContainer />
+        </YMaps >
       </ErrorBoundary>
     </Provider>
   );

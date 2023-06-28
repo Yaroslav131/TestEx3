@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 
 import activeSaveIcon from '../../../assets/imgs/activeSave.svg';
-import wayIcon from '../../../assets/imgs/way.svg';
 import palceholderImg from '../../../assets/imgs/imagePlaceholder.png';
 import play from '../../../assets/imgs/play.svg';
 import { useAppDispatch } from '../../../store/hooks';
@@ -13,6 +12,7 @@ import { useAppSelector } from '../../../store/hooks';
 
 import './styles.css';
 import ChosenObjectSkeleton from "./Skeleton";
+import { RouteButton } from './RouteButton';
 
 interface IProps {
   savedObjectsId: number[]
@@ -131,10 +131,7 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
                 <span className={isSaveObject ? "save-span" : "none-save-span"}>Сохранено</span>
               </button>
 
-              <button className="way-button">
-                <img className="way-button-img" src={wayIcon} alt="Way Icon" />
-                <span className="way-span">Маршрут</span>
-              </button>
+              <RouteButton chosenObject={chosenObject} />
             </div>
           </div>
         </>
