@@ -1,0 +1,47 @@
+.way-button,
+.active-way-button {
+    grid-column: 6;
+    background-color: #5E7BC7;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 105px;
+    justify-content: space-between;
+    cursor: pointer;
+    grid-column: 3;
+    height: 40px;
+    transition: 0.15s;
+}
+
+.active-way-button {
+    background-color: #ffffff;
+    border: solid;
+    border-width: 2px;
+    border-color: #5E7BC7;
+    justify-content: center;
+}
+
+.way-button:hover {
+    opacity: 0.8;
+}
+
+.way-button:active {
+    opacity: 0.6;
+}
+
+.way-span {
+    font-family: Mont;
+    color: white;
+}
+
+.active-way-span {
+    font-family: Mont;
+    color: #5E7BC7;
+}
+
+.active-way-button-img {
+    display: none;
+}
