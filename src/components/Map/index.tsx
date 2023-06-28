@@ -68,7 +68,7 @@ const MapComponent = () => {
 
     } catch (error) {
       console.log(error)
-      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключина гео лакация.`);
+      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключена геолакация.`);
     }
     finally {
       dispatch(setIsLoading(false))
