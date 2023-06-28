@@ -131,7 +131,7 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
                 <span className={isSaveObject ? "save-span" : "none-save-span"}>Сохранено</span>
               </button>
 
-              <RouteButton placeCoords={[chosenObject?.lat!, chosenObject?.lon!]} />
+              <RouteButton chosenObject={chosenObject} />
             </div>
           </div>
         </>

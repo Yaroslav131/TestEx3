@@ -21,6 +21,7 @@ import locFilled from '../../assets/imgs/tablerLocationFilled.svg';
 import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
 
 import './styles.css';
+import images from '../../images';
 
 const MapComponent = () => {
   const { mapRef } = useContext(MapContext)
@@ -30,7 +31,7 @@ const MapComponent = () => {
   const userRadius = useAppSelector((state) => state.radius.value);
   const geoObjects = useAppSelector((state) => state.geoObjects.value);
   const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
-  const isPicked = useAppSelector((state) => state.pickedRoutePlace.value);
+  const routeObject = useAppSelector((state) => state.pickedRoutePlace.value);
 
   useEffect(() => {
     setMapObjects(geoObjects)
@@ -89,10 +90,14 @@ const MapComponent = () => {
         height="100%"
         instanceRef={mapRef!}
       >
-        {isPicked[0] ?
+        {routeObject.isPicked ?
           <>
             <Placemark geometry={userCoords!} options={userPlacemarkOptions} />
-            <Placemark geometry={[isPicked[1]!.lan, isPicked[1]!.lon]} options={routePlacemarkOptions} />
+            <CustomPlacemark
+              objectId={routeObject.object?.id!}
+              markCoords={[routeObject.object?.lat!, routeObject.object?.lon!]}
+              iconImageHref={images.mapPin}
+            />
           </>
           :
           <>

@@ -1,4 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import IGeoObject from '../../../../types/IGeoObject';
 import wayIcon from '../../../../assets/imgs/way.svg';
 import { useYMaps } from "@pbe/react-yandex-maps";
 import { MapContext } from '../../../../config';
@@ -6,30 +9,33 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { closeRoutePlace, pickRoutePlace } from '../../../../store/slices/isPickedRoutePlaceSlice';
 
 import './sytles.css'
-import { toast } from 'react-toastify';
+
 interface IProps {
-  placeCoords: [number, number];
+  chosenObject: IGeoObject | null;
 }
 
-export const RouteButton = ({ placeCoords }: IProps) => {
+export const RouteButton = ({ chosenObject }: IProps) => {
   const dispatch = useAppDispatch();
   const coords = useAppSelector((state) => state.userCords.value);
-  const isPicked = useAppSelector((state) => state.pickedRoutePlace.value);
+  const routeObject = useAppSelector((state) => state.pickedRoutePlace.value);
   const { mapRef, routeRef } = useContext(MapContext);
   const ymaps = useYMaps(['multiRouter.MultiRoute']);
 
   const [isRouteButton, setIsRouteButton] = useState<boolean>(false)
 
   useEffect(() => {
-    if (placeCoords[0] && placeCoords[1]) {
-      let test = placeCoords[0] == isPicked[1]?.lan && placeCoords[1] == isPicked[1]?.lon;
-      setIsRouteButton(test)
+    if (!routeObject?.object) {
+      setIsRouteButton(false)
     }
-  }, [isPicked, placeCoords])
+    else if (chosenObject) {
+      let isCheckButton = chosenObject.lat == routeObject?.object!.lat && chosenObject.lon == routeObject?.object!.lon;
+      setIsRouteButton(isCheckButton)
+    }
+  }, [routeObject, chosenObject])
 
   const handleRoute = () => {
     const start = coords;
-    const destination = placeCoords;
+    const destination = [chosenObject!.lat, chosenObject!.lon];
 
     if (!coords) {
       toast.error("Мы не можем плучить ваше место положение. Проверьте, чтобы была включина геолокация.")
@@ -40,7 +46,7 @@ export const RouteButton = ({ placeCoords }: IProps) => {
       mapRef!.current!.geoObjects.remove(routeRef!.current!);
     }
 
-    if (isPicked[0] && isRouteButton) {
+    if (routeObject.isPicked && isRouteButton) {
       toast.success("Маршрут отменен")
       dispatch(closeRoutePlace())
     }
@@ -55,7 +61,7 @@ export const RouteButton = ({ placeCoords }: IProps) => {
 
       mapRef!.current?.geoObjects.add(routeRef!.current!);
 
-      dispatch(pickRoutePlace({ lan: placeCoords[0], lon: placeCoords[1] }))
+      dispatch(pickRoutePlace({ isPicked: true, object: chosenObject }))
       toast.success("Маршрут постоен")
     }
   }
