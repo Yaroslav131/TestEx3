@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import images from "./images";
 interface ISeachOption {
   tag: string;
@@ -78,8 +79,28 @@ export const userPlacemarkOptions = {
   iconImageOffset: [-16, -16],
 };
 
+export const routePlacemarkOptions = {
+  iconLayout: 'default#image',
+  iconImageHref: images.mapPin,
+  iconImageSize: [32, 32],
+  iconImageOffset: [-16, -16],
+};
+
+
 export const mapDefaulteCoords = [55.44, 37.36];
 
 export const defaulteRadius = 1000;
 
-export const timeoutDuration = 5000; 
+export const timeoutDuration = 5000;
+
+interface Context {
+  mapRef: React.MutableRefObject<ymaps.Map | undefined> | null,
+  routeRef: React.MutableRefObject<ymaps.multiRouter.MultiRoute | undefined> | null,
+}
+
+export const MapContext = createContext<Context>(
+  {
+    mapRef: null,
+    routeRef: null
+  }
+)
