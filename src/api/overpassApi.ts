@@ -66,7 +66,7 @@ export async function getObjectByTags(
     }
     catch (error: any) {
       if (error.name === 'AbortError') {
-        toast.error('Время ожидания запроса истекло.Возможно вы указали слишком большой диаказон поиска. Попробуйте снова.');
+        toast.error('Время ожидания запроса истекло. Возможно вы указали слишком большой диапазон поиска. Попробуйте снова.');
         return geoObjects;
       } else {
         toast.error('Не удалось найти объект. Попробуйте снова.');
@@ -184,6 +184,6 @@ const fetchOverpassApiDataById = async (id: number) => {
     toast.error('Не удалось найти объкт. Попробуйте сново.')
 
   } catch (error) {
-    toast.error('Не удалось найти объкт. Попробуйте сново..')
+    toast.error('Не удалось найти объкт. Попробуйте сново.')
   }
 };
