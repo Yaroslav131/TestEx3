@@ -51,6 +51,22 @@ const MapComponent = () => {
     setGeoObjectPlacemarks(placemarks);
   };
 
+  useEffect(() => {
+    handleUpdateUserCoords()
+  }, [])
+
+  async function handleUpdateUserCoords() {
+    try {
+      const coords = await getUserGeolocation();
+      dispatch(setCoords([coords.latitude, coords.longitude]));
+
+    } catch (error) {
+      console.log(error)
+      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключена геолакация.`);
+    }
+  }
+
+
   const updateMap = async () => {
     try {
       dispatch(setIsLoading(true))

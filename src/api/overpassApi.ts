@@ -151,8 +151,6 @@ const fetchOverpassApiDataByNameAddress = async (name: string) => {
     if (response.ok) {
       const data = await response.json();
 
-      toast.success(`Найдено ${data.elements.length} объектов.`);
-
       return data.elements;
     }
 
