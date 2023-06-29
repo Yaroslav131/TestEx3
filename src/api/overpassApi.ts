@@ -64,10 +64,10 @@ export async function getObjectByTags(
       }
 
     }
-    catch (error: any) {
-      if (error.name === 'AbortError') {
+    catch (error: unknown) {
+      if ((error as Error).name === 'AbortError') {
         toast.error('Время ожидания запроса истекло. Возможно вы указали слишком большой диапазон поиска. Попробуйте снова.');
-        return geoObjects;
+        return geoObjects; // Assuming geoObjects is of a specific type
       } else {
         toast.error('Не удалось найти объект. Попробуйте снова.');
       }
