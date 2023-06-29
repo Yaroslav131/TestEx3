@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import signOutImg from '../../../assets/imgs/singOut.svg';
+import signOutImg from '../../../assets/images/singOut.svg';
 import { auth, googleProvider } from '../../../firebase';
 import { addOrUpdateUser } from '../../../api/firebaseApi'
 
@@ -60,7 +60,7 @@ const AuthButton = (props: Iprops) => {
             onClick={isAuthenticated ? handleSignOut : handleGoogleSignIn}
             className={isAuthenticated ? 'sing-button singOut-button' : 'sing-button singIn-button'}
         >
-            <img src={userAvatar} className="user-img" alt="" />
+            <img src={userAvatar} className="user-img" alt="User icon" />
         </button >
     );
 };

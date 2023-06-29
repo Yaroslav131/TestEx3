@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import SearchMenuOptions from '../SearchMenuOptions';
 import InputRadius from '../RadiusInput';
-import search from '../../assets/imgs/search.svg';
+import search from '../../assets/images/search.svg';
 import SearchInput from '../SearchInput';
 import { getObjectByTags, getObjectByName } from '../../api/overpassApi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

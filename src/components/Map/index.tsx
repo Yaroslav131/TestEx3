@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import CustomPlacemark from '../GeoObjectPlacemark';
 import { getObjectByTags } from '../../api/overpassApi';
-import { getUserGeolocation } from '../../helpingFunctions';
+import { getUserGeolocation } from '../../helpers/geolocationFunctions';
 import IGeoObject from '../../types/IGeoObject';
 import {
   attractionsTags,
@@ -16,7 +16,7 @@ import {
 import { setCoords } from '../../store/slices/userCordsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
-import locFilled from '../../assets/imgs/tablerLocationFilled.svg';
+import locFilled from '../../assets/images/tablerLocationFilled.svg';
 import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
 
 import './styles.css';
@@ -52,20 +52,8 @@ const MapComponent = () => {
   };
 
   useEffect(() => {
-    handleUpdateUserCoords()
+    updateMap()
   }, [])
-
-  async function handleUpdateUserCoords() {
-    try {
-      const coords = await getUserGeolocation();
-      dispatch(setCoords([coords.latitude, coords.longitude]));
-
-    } catch (error) {
-      console.log(error)
-      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключена геолакация.`);
-    }
-  }
-
 
   const updateMap = async () => {
     try {
@@ -136,7 +124,7 @@ const MapComponent = () => {
 
         <button onClick={updateMap}
           className={isLoading ? "location-button disabled-button" : "location-button"} >
-          <img src={locFilled} alt="геолакация" />
+          <img src={locFilled} alt="geolocation" />
         </button>
       </Map>
     </div>
