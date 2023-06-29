@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import IGeoObject from '../../../../types/IGeoObject';
-import wayIcon from '../../../../assets/imgs/way.svg';
+import wayIcon from '../../../../assets/images/way.svg';
 import { useYMaps } from "@pbe/react-yandex-maps";
 import { MapContext } from '../../../../config';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';

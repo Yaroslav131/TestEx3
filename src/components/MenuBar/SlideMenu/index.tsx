@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../../store/hooks';
 import { closeChosenObj } from '../../../store/slices/isChosenObjPickedSlice';
-import backIcon from '../../../assets/imgs/play.svg';
+import backIcon from '../../../assets/images/play.svg';
 
 import './styles.css';
 
@@ -24,7 +24,7 @@ const SlideMenu = ({ isOpen, content, handleCloseMenu }: Iprops) => {
             <div className="main-container">{content && content}</div>
             <div className="uvula-container">
                 <button onClick={handleCloseSlideMenu} className="uvula">
-                    <img src={backIcon} className="uvula-img" alt="закрыть" />
+                    <img src={backIcon} className="uvula-img" alt="Close" />
                 </button>
             </div>
         </div>

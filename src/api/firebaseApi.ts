@@ -44,8 +44,8 @@ export const getCurrentUserSavedId = (): Promise<number[]> => {
 export const addOrUpdateUser = (user: any) => {
     if (user) {
         const newUser: User = {
-            id: user.uid,
-            name: user.displayName || '',
+            id: user.id,
+            name: user.name || '',
             email: user.email || '',
             savedId: [],
         };

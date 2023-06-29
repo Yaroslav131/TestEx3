@@ -1,4 +1,4 @@
-import searchIcon from '../../assets/imgs/searchInput.svg';
+import searchIcon from '../../assets/images/searchInput.svg';
 
 import './styles.css';
 
@@ -14,7 +14,7 @@ const SearchInput = (props:IProps) => {
   }
   return (
     <div className="search-container">
-      <img className="search-icon" src={searchIcon} alt="search icon" />
+      <img className="search-icon" src={searchIcon} alt="Search icon" />
       <input
         onChange={handleOnInputChange}
         placeholder="Место, адрес..."

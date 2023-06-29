@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
+import { toast } from 'react-toastify';
 
 import images from '../../images';
 import SlideMenu from './SlideMenu';
@@ -8,8 +9,7 @@ import { useAppSelector } from '../../store/hooks';
 import SaveMenu from '../SaveMenu';
 
 import './styles.css';
-import AuthButton from './AuthButton/indexx';
-import { toast } from 'react-toastify';
+import AuthButton from './AuthButton';
 
 const MenuBar = () => {
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
@@ -89,7 +89,7 @@ const MenuBar = () => {
             <img
               src={isSearchButtonActive ? images.activeSearch : images.search}
               className="menu-img"
-              alt=""
+              alt="search button"
             />
           </button>
           <button
@@ -104,7 +104,7 @@ const MenuBar = () => {
             <img
               src={isSaveButtonActive ? images.activeSave : images.save}
               className="menu-img"
-              alt=""
+              alt="save button"
             />
           </button>
         </div>

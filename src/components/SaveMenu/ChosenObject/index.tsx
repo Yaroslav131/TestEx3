@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 
-import activeSaveIcon from '../../../assets/imgs/activeSave.svg';
-import palceholderImg from '../../../assets/imgs/imagePlaceholder.png';
-import play from '../../../assets/imgs/play.svg';
+import activeSaveIcon from '../../../assets/images/activeSave.svg';
+import palceholderImg from '../../../assets/images/imagePlaceholder.png';
+import play from '../../../assets/images/play.svg';
 import { useAppDispatch } from '../../../store/hooks';
 import { closeChosenObj } from '../../../store/slices/isChosenObjPickedSlice';
 import IGeoObject from '../../../types/IGeoObject';
