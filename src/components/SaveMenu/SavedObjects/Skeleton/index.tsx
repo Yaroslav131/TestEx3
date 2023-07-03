@@ -4,7 +4,7 @@ const SavedObjectSkeleton = () => {
   return (
     <ContentLoader
       speed={2}
-      width={250}
+      width={220}
       height={200}
       viewBox="0 0 250 160"
       backgroundColor="#f3f3f3"
