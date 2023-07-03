@@ -30,6 +30,6 @@
 
 @media (max-width: 500px) {
     .side-menu {
-        min-width: 300px !important;
+        min-width: 250px !important;
     }
 }
