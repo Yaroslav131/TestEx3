@@ -4,17 +4,15 @@ import { Placemark } from '@pbe/react-yandex-maps';
 import { useAppDispatch } from '../../store/hooks';
 import { pickChosenObj } from '../../store/slices/isChosenObjPickedSlice';
 
-import './styles.css';
-
-interface GeoObjectPlacemarkProps {
+interface GeoMarkerProps {
   objectId: number;
-  iconImageHref: string;
+  imageIconHref: string;
   markCoords: [number, number];
 }
 
-const GeoObjectPlacemark: React.FC<GeoObjectPlacemarkProps> = ({
+const GeoMarker: React.FC<GeoMarkerProps> = ({
   objectId,
-  iconImageHref,
+  imageIconHref,
   markCoords,
 }) => {
 
@@ -26,7 +24,7 @@ const GeoObjectPlacemark: React.FC<GeoObjectPlacemarkProps> = ({
 
   const placemarkOptions = {
     iconLayout: 'default#image',
-    iconImageHref: iconImageHref,
+    iconImageHref: imageIconHref,
     iconImageSize: [32, 32],
     iconImageOffset: [-16, -16],
   };
@@ -42,4 +40,4 @@ const GeoObjectPlacemark: React.FC<GeoObjectPlacemarkProps> = ({
   );
 };
 
-export default GeoObjectPlacemark;
+export default GeoMarker;

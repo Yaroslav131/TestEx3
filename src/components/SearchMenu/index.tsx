@@ -4,10 +4,10 @@ import SearchMenuOptions from '../SearchMenuOptions';
 import InputRadius from '../RadiusInput';
 import search from '../../assets/images/search.svg';
 import SearchInput from '../SearchInput';
-import { getObjectByTags, getObjectByName } from '../../api/overpassApi';
+import { getGeoObjectByTags, getGeoObjectByName } from '../../api/overpassApi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
-import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
+import { hideLoading,showLoading } from '../../store/slices/loadingSlice';
 import { userSearchTag } from '../../config';
 
 import './styles.css';
@@ -18,7 +18,7 @@ const SearchMenu = () => {
   const userCoords = useAppSelector((state) => state.userCords.value);
   const radius = useAppSelector((state) => state.radius.value);
   const [objectName, setObjectName] = useState<string>('')
-  const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
+  const isLoading = useAppSelector((state) => state.loading.value)
 
   function handleSetObjectName(name: string) {
     setObjectName(name)
@@ -26,20 +26,20 @@ const SearchMenu = () => {
 
   function makeMapObjectRequest() {
     if (objectName != '') {
-      dispatch(setIsLoading(true))
+      dispatch(showLoading())
 
-      getObjectByName(objectName, userSearchTag).then((result) => {
+      getGeoObjectByName(objectName, userSearchTag).then((result) => {
         dispatch(setGeoObjects(result));
 
-        dispatch(setIsLoading(false))
+        dispatch(hideLoading())
       });
     } else if (tags.length != 0) {
-      dispatch(setIsLoading(true))
+      dispatch(showLoading())
 
-      userCoords && getObjectByTags(tags, userCoords, radius).then((result) => {
+      userCoords && getGeoObjectByTags(tags, userCoords, radius).then((result) => {
         dispatch(setGeoObjects(result));
 
-        dispatch(setIsLoading(false))
+        dispatch(hideLoading())
       });
     }
 

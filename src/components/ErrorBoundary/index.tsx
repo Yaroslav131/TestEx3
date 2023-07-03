@@ -1,16 +1,7 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo } from 'react';
 
 import './styles.css'
-
-interface ErrorBoundaryProps {
-    children: ReactNode;
-}
-
-interface ErrorBoundaryState {
-    hasError: boolean;
-    error: Error | null;
-    errorInfo: ErrorInfo | null;
-}
+import {ErrorBoundaryProps,ErrorBoundaryState } from './types'
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
@@ -30,13 +21,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         });
     }
 
-    render() {
+    render(error = this.state.error) {
         if (this.state.hasError) {
             return (
                 <div className='error-container'>
                     <h1>Opss,Something went wrong.</h1>
                     <h2> Try again later)))</h2>
-                    <p>Error: {this.state.error && this.state.error.toString()}</p>
+                    <p>Error: {error && error.toString()}</p>
                 </div>
             );
         }

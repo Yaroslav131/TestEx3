@@ -1,32 +1,24 @@
-import { useAppDispatch } from '../../../store/hooks';
-import { closeChosenObj } from '../../../store/slices/isChosenObjPickedSlice';
-import backIcon from '../../../assets/images/play.svg';
+import IActiveButtons from '../../../types/IActiveButtons';
+import SaveMenu from '../../SaveMenu';
+import SearchMenu from '../../SearchMenu';
 
 import './styles.css';
 
 interface Iprops {
+    activeButtons: IActiveButtons
     isOpen: boolean;
-    content: JSX.Element | null;
-    handleCloseMenu: () => void;
 }
 
-const SlideMenu = ({ isOpen, content, handleCloseMenu }: Iprops) => {
-    const dispatch = useAppDispatch();
+const SlideMenu = ({ isOpen, activeButtons }: Iprops) => {
 
-    function handleCloseSlideMenu() {
-        dispatch(closeChosenObj());
-
-        handleCloseMenu();
-    }
-
+    const { saveButton, searchButton } = activeButtons.activeButtons
     return (
         <div className={isOpen ? 'side-menu' : 'close-side-menu'}>
-            <div className="main-container">{content && content}</div>
-            <div className="uvula-container">
-                <button onClick={handleCloseSlideMenu} className="uvula">
-                    <img src={backIcon} className="uvula-img" alt="Close" />
-                </button>
+            <div className="main-container">
+                {searchButton ? <SearchMenu /> : <></>}
+                {saveButton ? <SaveMenu /> : <></>}
             </div>
+
         </div>
     );
 }

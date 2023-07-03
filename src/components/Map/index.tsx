@@ -1,9 +1,9 @@
 import { Map, Circle, Placemark } from '@pbe/react-yandex-maps';
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import CustomPlacemark from '../GeoObjectPlacemark';
-import { getObjectByTags } from '../../api/overpassApi';
+import CustomPlacemark from '../GeoMarker';
+import { getGeoObjectByTags } from '../../api/overpassApi';
 import { getUserGeolocation } from '../../helpers/geolocationFunctions';
 import IGeoObject from '../../types/IGeoObject';
 import {
@@ -11,73 +11,72 @@ import {
   userPlacemarkOptions,
   mapDefaulteCoords,
   defaulteRadius,
-  MapContext
+  MapContext,
+  UserAppeals
 } from '../../config';
 import { setCoords } from '../../store/slices/userCordsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
 import locFilled from '../../assets/images/tablerLocationFilled.svg';
-import { setIsLoading } from '../../store/slices/loadingObjectsSlice';
-
-import './styles.css';
+import { showLoading, hideLoading } from '../../store/slices/loadingSlice';
 import images from '../../images';
 
+import './styles.css';
+
 const MapComponent = () => {
-  const { mapRef } = useContext(MapContext)
+  const { mapRef } = useContext(MapContext);
   const dispatch = useAppDispatch();
-  const [geoObjectPlacemarks, setGeoObjectPlacemarks] = useState<JSX.Element[]>();
   const userCoords = useAppSelector((state) => state.userCords.value);
   const userRadius = useAppSelector((state) => state.radius.value);
   const geoObjects = useAppSelector((state) => state.geoObjects.value);
-  const isLoading = useAppSelector((state) => state.isLoadingObjects.value)
+  const isLoading = useAppSelector((state) => state.loading.value);
   const routeObject = useAppSelector((state) => state.pickedRoutePlace.value);
 
-  useEffect(() => {
-    setMapObjects(geoObjects)
-  }, [geoObjects])
-
-  const setMapObjects = (geoObjects: IGeoObject[]) => {
+  const setMapObjects = useCallback((geoObjects: IGeoObject[]) => {
     const placemarks: JSX.Element[] = geoObjects.map((geoObject, index) => {
       return (
         <CustomPlacemark
           objectId={geoObject.id}
           key={index}
           markCoords={[geoObject.lat, geoObject.lon]}
-          iconImageHref={geoObject.iconImgHref}
+          imageIconHref={geoObject.iconImgHref}
         />
       );
     });
 
-    setGeoObjectPlacemarks(placemarks);
-  };
+    return placemarks;
+  }, []);
 
-  useEffect(() => {
-    updateMap()
-  }, [])
-
-  const updateMap = async () => {
+  const updateMap = useCallback(async () => {
     try {
-      dispatch(setIsLoading(true))
+      dispatch(showLoading());
       const coords = await getUserGeolocation();
       dispatch(setCoords([coords.latitude, coords.longitude]));
 
-      const geoObjects = await getObjectByTags(
+      const geoObjects = await getGeoObjectByTags(
         attractionsTags,
         [coords.latitude, coords.longitude],
         defaulteRadius
       );
 
       await dispatch(setGeoObjects(geoObjects));
-      setMapObjects(geoObjects);
+    } catch {
+      toast.error(UserAppeals.NoGPS);
+    } finally {
+      dispatch(hideLoading());
+    }
+  }, [dispatch, setCoords, setGeoObjects]);
 
-    } catch (error) {
-      console.log(error)
-      toast.error(`Нам не удалось получить ваше местоположение. Возможно у ваc отключена геолакация.`);
+  useEffect(() => {
+    updateMap();
+  }, [updateMap]);
+
+  const placemarks = useMemo(() => {
+    if (geoObjects) {
+      return setMapObjects(geoObjects);
     }
-    finally {
-      dispatch(setIsLoading(false))
-    }
-  };
+    return [];
+  }, [geoObjects, setMapObjects]);
 
   return (
     <div className="map-container">
@@ -93,21 +92,21 @@ const MapComponent = () => {
         height="100%"
         instanceRef={mapRef!}
       >
-        {routeObject.isPicked ?
+        {routeObject.isPicked ? (
           <>
             <Placemark geometry={userCoords!} options={userPlacemarkOptions} />
             <CustomPlacemark
               objectId={routeObject.object?.id!}
               markCoords={[routeObject.object?.lat!, routeObject.object?.lon!]}
-              iconImageHref={images.mapPin}
+              imageIconHref={images.mapPin}
             />
           </>
-          :
+        ) : (
           <>
             {userCoords && (
               <>
                 <Placemark geometry={userCoords} options={userPlacemarkOptions} />
-                {geoObjectPlacemarks}
+                {placemarks}
                 <Circle
                   geometry={[userCoords, userRadius]}
                   options={{
@@ -120,15 +119,16 @@ const MapComponent = () => {
               </>
             )}
           </>
-        }
+        )}
 
-        <button onClick={updateMap}
-          className={isLoading ? "location-button disabled-button" : "location-button"} >
+        <button
+          onClick={updateMap}
+          className={isLoading ? 'location-button disabled-button' : 'location-button'}
+        >
           <img src={locFilled} alt="geolocation" />
         </button>
       </Map>
     </div>
-
   );
 };
 

@@ -1,6 +1,9 @@
 import { toast } from 'react-toastify';
 import { db, auth } from '../firebase';
 import firebase from 'firebase/compat/app';
+import { UserAppeals } from '../config';
+
+
 
 interface User {
     id: string;
@@ -26,16 +29,16 @@ export const getCurrentUserSavedId = (): Promise<number[]> => {
 
                         resolve(savedId);
                     } else {
-                        toast.error("Пользователя не существует.")
+                        toast.error(UserAppeals.NOUSER)
                         resolve([]);
                     }
                 })
                 .catch((error) => {
-                    toast.error("Пользователя не существует.")
+                    toast.error(UserAppeals.NOUSER)
                     reject(error);
                 });
         } else {
-            toast.error("Пользователь не авторизирован.")
+            toast.error(UserAppeals.NOUSER)
             resolve([]);
         }
     });
@@ -44,7 +47,7 @@ export const getCurrentUserSavedId = (): Promise<number[]> => {
 export const addOrUpdateUser = (user: any) => {
     if (user) {
         const newUser: User = {
-            id: user.id,
+            id: user.uid,
             name: user.name || '',
             email: user.email || '',
             savedId: [],
@@ -59,7 +62,6 @@ export const addOrUpdateUser = (user: any) => {
                 }
             })
             .catch(() => {
-                toast.error("Пользователя не существует.")
             });
     }
 };
@@ -83,7 +85,7 @@ export const addUserSavedId = (index: number): Promise<void> => {
                     reject(error);
                 });
         } else {
-            toast.error("Пользователя не существует.")
+            toast.error(UserAppeals.NOUSER)
             resolve();
         }
     });
@@ -108,7 +110,7 @@ export const removeUserSavedId = (index: number): Promise<void> => {
                     reject(error);
                 });
         } else {
-            toast.error("Пользователя не существует.")
+            toast.error(UserAppeals.NOUSER)
             resolve();
         }
     });

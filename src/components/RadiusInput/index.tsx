@@ -1,9 +1,11 @@
 import './styles.css';
 import { setByAmount } from '../../store/slices/radiusSlice';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const InputRadius = () => {
   const dispatch = useAppDispatch();
+  const radius = useAppSelector((state) => state.radius.value)/1000
+  
 
   function handleOnInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const inputValue = event.target.value.replace(/\D/g, '');
@@ -19,6 +21,7 @@ const InputRadius = () => {
   return (
     <div className="radius-input-container">
       <input
+        value={radius}
         onChange={handleOnInputChange}
         type="text"
         className="radius-input"

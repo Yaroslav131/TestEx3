@@ -1,8 +1,9 @@
-import IGeoObject from '../types/IGeoObject';
-import { geoIcons, timeoutDuration } from '../config';
 import { toast } from 'react-toastify';
 
-export async function getObjectByName(
+import IGeoObject from '../types/IGeoObject';
+import { UserAppeals, geoIcons, timeoutDuration } from '../config';
+
+export async function getGeoObjectByName(
   name: string,
   tag: string
 ): Promise<IGeoObject[]> {
@@ -15,13 +16,12 @@ export async function getObjectByName(
     geoObjects.push(...mappedGeoObjects);
   }
 
-  console.log(geoObjects);
   toast.success(`Найдено ${geoObjects.length} объектов.`);
 
   return geoObjects;
 }
 
-export async function getObjectById(
+export async function getGeoObjectById(
   ids: number[]
 ): Promise<IGeoObject[]> {
   const geoObjects: IGeoObject[] = [];
@@ -34,12 +34,10 @@ export async function getObjectById(
     }
   }
 
-  console.log(geoObjects);
-
   return geoObjects;
 }
 
-export async function getObjectByTags(
+export async function getGeoObjectByTags(
   tags: string[],
   userCoords: [number, number],
   searchRadius: number
@@ -47,8 +45,6 @@ export async function getObjectByTags(
   const geoObjects: IGeoObject[] = [];
 
   const [latitude, longitude] = userCoords;
-
-  console.log(searchRadius);
 
   for (const tag of tags) {
     try {
@@ -66,16 +62,15 @@ export async function getObjectByTags(
     }
     catch (error: unknown) {
       if ((error as Error).name === 'AbortError') {
-        toast.error('Время ожидания запроса истекло. Возможно вы указали слишком большой диапазон поиска. Попробуйте снова.');
-        return geoObjects; // Assuming geoObjects is of a specific type
+        toast.error(UserAppeals.AbortedRequest);
+        return geoObjects;
       } else {
-        toast.error('Не удалось найти объект. Попробуйте снова.');
+        toast.error(UserAppeals.NOOBJECT);
       }
     }
 
   }
 
-  console.log(geoObjects);
   toast.success(`Найдено ${geoObjects.length} объектов.`);
   return geoObjects;
 }
@@ -113,7 +108,6 @@ const fetchOverpassApiDataByLocation = async (
     );
     out center;`;
 
-
   const timeoutId = setTimeout(() => {
     controller.abort();
   }, timeoutDuration);
@@ -128,8 +122,6 @@ const fetchOverpassApiDataByLocation = async (
     const data = await response.json();
     return data.elements as any[];
   }
-
-  toast.error('Не удалось найти объект. Попробуйте снова.');
   return undefined;
 };
 
@@ -154,10 +146,9 @@ const fetchOverpassApiDataByNameAddress = async (name: string) => {
       return data.elements;
     }
 
-    toast.error('Не удалось найти объкт. Попробуйте сново.')
   }
   catch (error) {
-    toast.error('Не удалось найти объкт. Попробуйте сново.')
+    toast.error(UserAppeals.NOOBJECT);
   }
 };
 
@@ -179,9 +170,8 @@ const fetchOverpassApiDataById = async (id: number) => {
       const data = await response.json();
       return data.elements;
     }
-    toast.error('Не удалось найти объкт. Попробуйте сново.')
 
   } catch (error) {
-    toast.error('Не удалось найти объкт. Попробуйте сново.')
+    toast.error(UserAppeals.NOOBJECT);
   }
 };
