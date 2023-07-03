@@ -16,7 +16,7 @@ const App = () => {
         <YMaps
           query={{
             lang: 'en_RU',
-            apikey: import.meta.env.VITE_API_KEY,
+            apikey: "18f172d7-21c0-4d35-bac0-a89f15490ad1",
           }}
         >
           <MainPage />
