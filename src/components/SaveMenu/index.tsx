@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { useAppSelector } from '../../store/hooks';
 import { addUserSavedId, getCurrentUserSavedId, removeUserSavedId } from '../../api/firebaseApi';
 
@@ -9,55 +8,51 @@ import SavedObjects from './SavedObjects';
 
 const SaveMenu = () => {
   const [savedObjectsId, setSavedObjectsId] = useState<number[]>([]);
-
-  const isChosenObjPicked = useAppSelector(
-    (state) => state.isChosenObjPicked.value
-  );
+  const isChosenObjPicked = useAppSelector((state) => state.isChosenObjPicked.value);
 
   useEffect(() => {
-    async function fetchDate() {
-      const savedId = await getCurrentUserSavedId()
-
-      setSavedObjectsId(savedId)
+    async function fetchSavedIds() {
+      const savedId = await getCurrentUserSavedId();
+      setSavedObjectsId(savedId);
     }
 
-    fetchDate()
+    fetchSavedIds();
   }, []);
 
-
   function handleDeleteObjectId(id: number) {
-    setSavedObjectsId(prevSavedObjectsId => {
-      const newSavedObjectsId = prevSavedObjectsId.filter(x => x !== id);
+    setSavedObjectsId((prevSavedObjectsId) => {
+      const newSavedObjectsId = prevSavedObjectsId.filter((x) => x !== id);
       return newSavedObjectsId;
     });
 
-    removeUserSavedId(id)
+    removeUserSavedId(id);
   }
 
   function handleSaveObjectId(id: number) {
-    setSavedObjectsId(prevSavedObjectsId => {
+    setSavedObjectsId((prevSavedObjectsId) => {
       const newSavedObjectsId = [...prevSavedObjectsId, id];
       return newSavedObjectsId;
     });
 
-    addUserSavedId(id)
+    addUserSavedId(id);
   }
 
   return (
     <div className="save-menu">
       {isChosenObjPicked[0] ? (
-        < ChosenObject
+        <ChosenObject
           handleSaveObject={handleSaveObjectId}
           handleDeleteObject={handleDeleteObjectId}
           savedObjectsId={savedObjectsId}
         />
-      ) :
+      ) : (
         <SavedObjects
           handleDeleteObjectId={handleDeleteObjectId}
-          savedObjectsId={savedObjectsId} />
-      }
+          savedObjectsId={savedObjectsId}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default SaveMenu;

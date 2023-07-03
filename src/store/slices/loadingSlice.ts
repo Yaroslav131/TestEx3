@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 
 interface LagingObjectState {
@@ -13,12 +13,15 @@ export const loadingObjectsSlice = createSlice({
   name: 'loadingObjects',
   initialState,
   reducers: {
-    setIsLoading: (state, action: PayloadAction<boolean>) => {
-      state.value = action.payload
+    showLoading: (state) => {
+      state.value = true
+    },
+    hideLoading: (state) => {
+      state.value = false
     },
   },
 });
 
-export const { setIsLoading } = loadingObjectsSlice.actions;
+export const { showLoading,hideLoading } = loadingObjectsSlice.actions;
 
 export default loadingObjectsSlice.reducer;

@@ -1,34 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 import signOutImg from '../../../assets/images/singOut.svg';
 import { auth, googleProvider } from '../../../firebase';
-import { addOrUpdateUser } from '../../../api/firebaseApi'
+import { addOrUpdateUser } from '../../../api/firebaseApi';
 
 import './styles.css';
-import { toast } from 'react-toastify';
+import { UserAppeals } from '../../../config';
 
 interface Iprops {
-    handleCloseSlideMenu: () => void
+    handleCloseSlideMenu: () => void;
 }
 
 const AuthButton = (props: Iprops) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userAvatar, setUserAvatar] = useState<string | undefined>(signOutImg);
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setIsAuthenticated(true);
-                const avatar = user.photoURL;
-                setUserAvatar(avatar!);
-            } else {
-                setIsAuthenticated(false);
-                setUserAvatar(signOutImg);
-            }
-        });
+    const handleAuthStateChanged = useCallback((user: any) => {
+        if (user) {
+            setIsAuthenticated(true);
+            const avatar = user.photoURL;
+            setUserAvatar(avatar!);
+        } else {
+            setIsAuthenticated(false);
+            setUserAvatar(signOutImg);
+        }
     }, []);
 
-    const handleGoogleSignIn = () => {
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(handleAuthStateChanged);
+        return () => unsubscribe();
+    }, [handleAuthStateChanged]);
+
+    const handleGoogleSignIn = useCallback(() => {
         auth.signInWithPopup(googleProvider)
             .then((result) => {
                 setIsAuthenticated(true);
@@ -38,30 +42,31 @@ const AuthButton = (props: Iprops) => {
                 toast.success(`Добро пажаловать ${result.user?.displayName}`);
             })
             .catch(() => {
-                toast.error(`Упс, что то пошло не так. Попробуйте снова)`);
+                toast.error(UserAppeals.TryAgain);
             });
-    };
+    }, []);
 
-    const handleSignOut = () => {
+    const handleSignOut = useCallback(() => {
         auth.signOut()
             .then(() => {
                 setIsAuthenticated(false);
                 setUserAvatar(signOutImg);
             })
             .catch(() => {
-                toast.error(`Упс, что то пошло не так. Попробуйте снова)`);
+                toast.error(UserAppeals.TryAgain);
             });
 
-        props.handleCloseSlideMenu()
-    };
+        props.handleCloseSlideMenu();
+    }, [props]);
+
+    const buttonClassName = useMemo(() => {
+        return isAuthenticated ? 'sing-button singOut-button' : 'sing-button singIn-button';
+    }, [isAuthenticated]);
 
     return (
-        <button
-            onClick={isAuthenticated ? handleSignOut : handleGoogleSignIn}
-            className={isAuthenticated ? 'sing-button singOut-button' : 'sing-button singIn-button'}
-        >
+        <button onClick={isAuthenticated ? handleSignOut : handleGoogleSignIn} className={buttonClassName}>
             <img src={userAvatar} className="user-img" alt="User icon" />
-        </button >
+        </button>
     );
 };
 

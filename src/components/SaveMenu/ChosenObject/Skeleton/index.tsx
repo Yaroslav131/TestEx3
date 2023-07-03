@@ -4,7 +4,7 @@ const ChosenObjectSkeleton = () => {
   return (
     <ContentLoader
       speed={2}
-      width={400}
+      width={250}
       height={280}
       viewBox="0 0 400 280"
       backgroundColor="#f3f3f3"

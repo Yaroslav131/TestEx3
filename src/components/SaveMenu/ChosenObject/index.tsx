@@ -7,7 +7,7 @@ import play from '../../../assets/images/play.svg';
 import { useAppDispatch } from '../../../store/hooks';
 import { closeChosenObj } from '../../../store/slices/isChosenObjPickedSlice';
 import IGeoObject from '../../../types/IGeoObject';
-import { getObjectById } from '../../../api/overpassApi';
+import { getGeoObjectById } from '../../../api/overpassApi';
 import { useAppSelector } from '../../../store/hooks';
 
 import './styles.css';
@@ -15,9 +15,9 @@ import ChosenObjectSkeleton from "./Skeleton";
 import { RouteButton } from './RouteButton';
 
 interface IProps {
-  savedObjectsId: number[]
-  handleSaveObject: (id: number) => void
-  handleDeleteObject: (id: number) => void
+  savedObjectsId: number[];
+  handleSaveObject: (id: number) => void;
+  handleDeleteObject: (id: number) => void;
 }
 
 const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: IProps) => {
@@ -25,11 +25,10 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
     (state) => state.isChosenObjPicked.value
   );
 
-  const [isSaveObject, setIsSaveObject] = useState(false)
+  const [isSaveObject, setIsSaveObject] = useState(false);
   const [user, setUser] = useState<firebase.User | null>(null);
   const [chosenObject, setChosenObject] = useState<IGeoObject | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     if (savedObjectsId.includes(chosenObject?.id!)) {
@@ -48,13 +47,13 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
   }, []);
 
   function handleDeleteClick() {
-    handleDeleteObject(chosenObject?.id!)
-    setIsSaveObject(false)
+    handleDeleteObject(chosenObject?.id!);
+    setIsSaveObject(false);
   }
 
   function handleSaveClick() {
-    handleSaveObject(chosenObject?.id!)
-    setIsSaveObject(true)
+    handleSaveObject(chosenObject?.id!);
+    setIsSaveObject(true);
   }
 
   const dispatch = useAppDispatch();
@@ -68,7 +67,7 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
     const timer = setTimeout(async () => {
       async function handleChooseObject() {
         if (isChosenObjPicked[0]) {
-          const geoObjects = await getObjectById([isChosenObjPicked[1]!]);
+          const geoObjects = await getGeoObjectById([isChosenObjPicked[1]!]);
           setChosenObject(geoObjects[0]);
         }
       }
@@ -122,15 +121,14 @@ const ChosenObject = ({ savedObjectsId, handleDeleteObject, handleSaveObject }: 
               </div>
             </div>
             <div className="chosen-buttons-container">
-
-              <button id={!user ? "disable-item" : ""}
+              <button
+                id={!user ? "disable-item" : ""}
                 onClick={isSaveObject ? handleDeleteClick : handleSaveClick}
-                className={isSaveObject ? "chosen-save-button save" :
-                  "chosen-save-button not-save"}>
+                className={isSaveObject ? "chosen-save-button save" : "chosen-save-button not-save"}
+              >
                 <img className="save-button-img" src={activeSaveIcon} alt="Save Icon" />
                 <span className={isSaveObject ? "save-span" : "none-save-span"}>Сохранено</span>
               </button>
-
               <RouteButton chosenObject={chosenObject} />
             </div>
           </div>

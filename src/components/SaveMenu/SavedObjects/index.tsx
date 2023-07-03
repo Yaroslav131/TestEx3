@@ -1,56 +1,57 @@
 import { useState, useEffect } from 'react';
-import { getObjectById } from '../../../api/overpassApi';
+import { getGeoObjectById } from '../../../api/overpassApi';
 
 import './styles.css';
 import SavedObjectSkeleton from './Skeleton';
 import SavedObject from './SavedObject';
 
 interface IProps {
-    savedObjectsId: number[]
-    handleDeleteObjectId: (id: number) => void
+  savedObjectsId: number[];
+  handleDeleteObjectId: (id: number) => void;
 }
 
 const SavedObjects = (props: IProps) => {
-    const [savedObjects, setSavedObjects] = useState<JSX.Element[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [savedObjects, setSavedObjects] = useState<JSX.Element[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        setIsLoading(true);
+  useEffect(() => {
+    setIsLoading(true);
 
-        const timer = setTimeout(async () => {
-            async function handleSetSavedObjects() {
-                const geoObjects = await getObjectById(props.savedObjectsId);
+    const timer = setTimeout(async () => {
+      async function handleSetSavedObjects() {
+        const geoObjects = await getGeoObjectById(props.savedObjectsId);
 
-                const savedObjects = geoObjects.map((x, index) => (
-                    <SavedObject handleDeleteObject={props.handleDeleteObjectId} savedObject={x} key={index} />
-                ));
-                setSavedObjects(savedObjects);
-            }
+        const savedObjects = geoObjects.map((x, index) => (
+          <SavedObject handleDeleteObject={props.handleDeleteObjectId} savedObject={x} key={index} />
+        ));
+        setSavedObjects(savedObjects);
+      }
 
-            await handleSetSavedObjects();
+      await handleSetSavedObjects();
 
-            setIsLoading(false);
-        }, 0);
+      setIsLoading(false);
+    }, 0);
 
-        return () => clearTimeout(timer);
+    return () => clearTimeout(timer);
+  }, [props.savedObjectsId]);
 
-    }, [props.savedObjectsId]);
-
-    return (
-        <>
-            <h2 className="option-title">Избранное:</h2>
-            <div className='saved-contant'>
-                {isLoading ? (
-                    <>
-                        <SavedObjectSkeleton />,
-                        <SavedObjectSkeleton />,
-                        <SavedObjectSkeleton />,
-                        <SavedObjectSkeleton />
-                    </>
-                ) : (savedObjects)}
-            </div>
-        </>
-    );
+  return (
+    <>
+      <h2 className="option-title">Избранное:</h2>
+      <div className='saved-contant'>
+        {isLoading ? (
+          <>
+            <SavedObjectSkeleton />
+            <SavedObjectSkeleton />
+            <SavedObjectSkeleton />
+            <SavedObjectSkeleton />
+          </>
+        ) : (
+          savedObjects
+        )}
+      </div>
+    </>
+  );
 }
 
 export default SavedObjects;

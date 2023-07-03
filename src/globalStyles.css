@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'Mont';
-  src: url('/src/assets/fonts/Mont/Mont-Regular.ttf');
+  src: url('/src/assets/fonts/Mont/Mont-Regular.woff2');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Mont-bold';
-  src: url('/src/assets/fonts/Mont/Mont-Bold.ttf');
+  src: url('/src/assets/fonts/Mont/Mont-Bold.woff2');
   font-weight: normal;
   font-style: normal;
 }

@@ -4,19 +4,25 @@ import { toast } from 'react-toastify';
 
 import images from '../../images';
 import SlideMenu from './SlideMenu';
-import SearchMenu from '../SearchMenu';
-import { useAppSelector } from '../../store/hooks';
-import SaveMenu from '../SaveMenu';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { closeChosenObj } from '../../store/slices/isChosenObjPickedSlice';
+import IActiveButtons from '../../types/IActiveButtons';
 
 import './styles.css';
 import AuthButton from './AuthButton';
+import { UserAppeals } from '../../config';
 
 const MenuBar = () => {
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
-  const [slideMenuContent, setSlideMenuContent] = useState<JSX.Element | null>(null);
-  const [isSearchButtonActive, setIsSearchButtonActive] = useState(false);
-  const [isSaveButtonActive, setIsSaveButtonActive] = useState(false);
+  const [activeButtons, setActiveButtons] = useState<IActiveButtons>({
+    activeButtons: {
+      searchButton: false,
+      saveButton: false
+    }
+  });
   const [user, setUser] = useState<firebase.User | null>(null);
+
+  const dispatch = useAppDispatch();
 
   const isChosenObjPicked = useAppSelector(
     (state) => state.isChosenObjPicked.value
@@ -33,15 +39,23 @@ const MenuBar = () => {
   useEffect(() => {
     if (isChosenObjPicked[0]) {
       disableAllMenuButtons();
-      setIsSaveButtonActive(true);
+      setActiveButtons({
+        activeButtons: {
+          searchButton: false,
+          saveButton: true
+        }
+      })
       setIsSlideMenuOpen(true);
-      setSlideMenuContent(<SaveMenu />);
     }
   }, [isChosenObjPicked[0]]);
 
   function disableAllMenuButtons() {
-    setIsSaveButtonActive(false);
-    setIsSearchButtonActive(false);
+    setActiveButtons({
+      activeButtons: {
+        searchButton: false,
+        saveButton: false
+      }
+    })
   }
 
   function handleCloseSlideMenu() {
@@ -53,21 +67,42 @@ const MenuBar = () => {
     const buttonName = event.currentTarget.name;
 
     if (buttonName === 'searchButton') {
-      disableAllMenuButtons();
-      setIsSearchButtonActive(true);
-      setSlideMenuContent(<SearchMenu />);
-      setIsSlideMenuOpen(true);
-    } else if (buttonName === 'saveButton' || isChosenObjPicked) {
-      if (user) {
+      if (activeButtons.activeButtons.searchButton) {
         disableAllMenuButtons();
-        setIsSaveButtonActive(true);
-        setSlideMenuContent(<SaveMenu />);
+        setIsSlideMenuOpen(false);
+      }
+      else {
+        disableAllMenuButtons();
+        setActiveButtons({
+          activeButtons: {
+            searchButton: true,
+            saveButton: false
+          }
+        })
         setIsSlideMenuOpen(true);
       }
-      else
-      {
+
+    } else if (buttonName === 'saveButton' || isChosenObjPicked) {
+      if (user) {
+        if (activeButtons.activeButtons.saveButton) {
+          disableAllMenuButtons();
+          setIsSlideMenuOpen(false);
+          dispatch(closeChosenObj());
+        }
+        else {
+          disableAllMenuButtons();
+          setActiveButtons({
+            activeButtons: {
+              searchButton: false,
+              saveButton: true
+            }
+          })
+          setIsSlideMenuOpen(true);
+        }
+      }
+      else {
         disableAllMenuButtons();
-        toast.error("Сперва вам надо авторизироваться")
+        toast.error(UserAppeals.FirstAuth)
       }
     }
   }
@@ -81,13 +116,13 @@ const MenuBar = () => {
             name="searchButton"
             onClick={handleOpenSlideMenu}
             className={
-              isSearchButtonActive
+              activeButtons.activeButtons.searchButton
                 ? 'active-menu-button menu-item'
                 : 'menu-button search-button menu-item'
             }
           >
             <img
-              src={isSearchButtonActive ? images.activeSearch : images.search}
+              src={activeButtons.activeButtons.searchButton ? images.activeSearch : images.search}
               className="menu-img"
               alt="search button"
             />
@@ -96,13 +131,13 @@ const MenuBar = () => {
             name="saveButton"
             onClick={handleOpenSlideMenu}
             className={
-              isSaveButtonActive
+              activeButtons.activeButtons.saveButton
                 ? 'active-menu-button menu-item'
                 : 'menu-button saved-button menu-item'
             }
           >
             <img
-              src={isSaveButtonActive ? images.activeSave : images.save}
+              src={activeButtons.activeButtons.saveButton ? images.activeSave : images.save}
               className="menu-img"
               alt="save button"
             />
@@ -111,9 +146,8 @@ const MenuBar = () => {
         <AuthButton handleCloseSlideMenu={handleCloseSlideMenu} />
       </div>
       <SlideMenu
+        activeButtons={activeButtons}
         isOpen={isSlideMenuOpen}
-        content={slideMenuContent}
-        handleCloseMenu={handleCloseSlideMenu}
       />
     </menu>
   );
