@@ -5,7 +5,12 @@ import { geoIcons, seachOptions } from '../../config';
 
 import './styles.css';
 
-const SearchMenuOptions = () => {
+interface Iprops
+{
+  handleResetObjectName:()=>void
+}
+
+const SearchMenuOptions = (props:Iprops) => {
   const dispatch = useAppDispatch();
   const tags = useAppSelector((state) => state.tags.value);
 
@@ -24,6 +29,7 @@ const SearchMenuOptions = () => {
 
     return (
       <SearchMenuOption
+      handleResetObjectName={props.handleResetObjectName}
         theme={x.tag}
         handleSetSelectedAttractionTag={handleSetSelectedAttractionTag}
         key={index}

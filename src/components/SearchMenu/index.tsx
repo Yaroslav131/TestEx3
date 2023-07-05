@@ -7,7 +7,8 @@ import SearchInput from '../SearchInput';
 import { getGeoObjectByTags, getGeoObjectByName } from '../../api/overpassApi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
-import { hideLoading,showLoading } from '../../store/slices/loadingSlice';
+import { hideLoading, showLoading } from '../../store/slices/loadingSlice';
+import { resetTag } from '../../store/slices/tagsSlice';
 import { userSearchTag } from '../../config';
 
 import './styles.css';
@@ -24,13 +25,18 @@ const SearchMenu = () => {
     setObjectName(name)
   }
 
+  function handleResetObjectName()
+  {
+    setObjectName('')
+  }
+
   function makeMapObjectRequest() {
     if (objectName != '') {
       dispatch(showLoading())
 
       getGeoObjectByName(objectName, userSearchTag).then((result) => {
         dispatch(setGeoObjects(result));
-
+        dispatch(resetTag())
         dispatch(hideLoading())
       });
     } else if (tags.length != 0) {
@@ -49,9 +55,9 @@ const SearchMenu = () => {
   return (
     <div className="search-menu">
       <div>
-        <SearchInput handleSetObjectName={handleSetObjectName} />
+        <SearchInput handleSetObjectName={handleSetObjectName} objectName={objectName} />
         <h2 className="option-title">Искать:</h2>
-        <SearchMenuOptions />
+        <SearchMenuOptions handleResetObjectName={handleResetObjectName}/>
         <h2 className="option-title">В радиусе:</h2>
         <InputRadius />
       </div>

@@ -8,9 +8,10 @@ interface Iprops {
   optionIcon: string;
   description: string;
   handleSetSelectedAttractionTag: (selectedAttraction: string) => void;
+  handleResetObjectName:()=>void
 }
 
-const SearchMenuOption = ({ theme, optionIcon, description, handleSetSelectedAttractionTag }: Iprops) => {
+const SearchMenuOption = ({ theme, optionIcon, description, handleSetSelectedAttractionTag, handleResetObjectName }: Iprops) => {
   const [isSelected, setIsSelected] = useState(false);
   const tags = useAppSelector((state) => state.tags.value);
 
@@ -18,6 +19,7 @@ const SearchMenuOption = ({ theme, optionIcon, description, handleSetSelectedAtt
     isSelected ? setIsSelected(false) : setIsSelected(true);
 
     handleSetSelectedAttractionTag(theme);
+    handleResetObjectName();
   }
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const SearchMenuOption = ({ theme, optionIcon, description, handleSetSelectedAtt
       setIsSelected(true)
     }
 
-  }, [])
+  }, [tags])
 
 
   return (

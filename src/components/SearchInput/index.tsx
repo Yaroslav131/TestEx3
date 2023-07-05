@@ -4,9 +4,10 @@ import './styles.css';
 
 interface IProps {
   handleSetObjectName: (name: string) => void
+  objectName:string
 }
 
-const SearchInput = (props:IProps) => {
+const SearchInput = (props: IProps) => {
   function handleOnInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const inputValue = event.target.value;
 
@@ -16,6 +17,7 @@ const SearchInput = (props:IProps) => {
     <div className="search-container">
       <img className="search-icon" src={searchIcon} alt="Search icon" />
       <input
+        value={props.objectName}
         onChange={handleOnInputChange}
         placeholder="Место, адрес..."
         type="text"

@@ -19,9 +19,13 @@ export const tagsSlice = createSlice({
     deleteTag: (state, action: PayloadAction<string>) => {
       state.value.splice(state.value.indexOf(action.payload), 1);
     },
+
+    resetTag: (state) => {
+      state.value = []
+    },
   },
 });
 
-export const { deleteTag, addTag } = tagsSlice.actions;
+export const { resetTag,deleteTag, addTag } = tagsSlice.actions;
 
 export default tagsSlice.reducer;
