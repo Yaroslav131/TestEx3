@@ -24,6 +24,10 @@ const SearchMenu = () => {
     setObjectName(name)
   }
 
+  function handleResetetObjectName() {
+    setObjectName("")
+  }
+
   function makeMapObjectRequest() {
     if (objectName != '') {
       dispatch(showLoading())
@@ -49,9 +53,9 @@ const SearchMenu = () => {
   return (
     <div className="search-menu">
       <div>
-        <SearchInput handleSetObjectName={handleSetObjectName} />
+        <SearchInput handleSetObjectName={handleSetObjectName} objectName={objectName}/>
         <h2 className="option-title">Искать:</h2>
-        <SearchMenuOptions />
+        <SearchMenuOptions handleResetObjectName={handleResetetObjectName}/>
         <h2 className="option-title">В радиусе:</h2>
         <InputRadius />
       </div>
