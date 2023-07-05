@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import { toast } from 'react-toastify';
 
-import images from '../../images';
+import images from '@/images';
 import SlideMenu from './SlideMenu';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { closeChosenObj } from '../../store/slices/isChosenObjPickedSlice';
-import IActiveButtons from '../../types/IActiveButtons';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { closeChosenObj } from '@store/slices/isChosenObjPickedSlice';
+import IActiveButtons from '@customTypes/IActiveButtons';
 
 import './styles.css';
 import AuthButton from './AuthButton';
-import { UserAppeals } from '../../config';
+import { UserAppeals } from '@/config';
 
 const MenuBar = () => {
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
@@ -111,7 +111,7 @@ const MenuBar = () => {
     <menu className="nav-menu">
       <div className="static-menu">
         <div className="top-button-container">
-          <img src={images.logo} className="menu-item logo-img" alt="App logo" />
+          <img src={images.logo} className="menu-button menu-item" alt="App logo" />
           <button
             name="searchButton"
             onClick={handleOpenSlideMenu}

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import IGeoObject from '../../types/IGeoObject';
+import IGeoObject from '@customTypes/IGeoObject';
 
 interface IIsPickedRoutePlace {
   value: { isPicked: boolean, object: IGeoObject | null }

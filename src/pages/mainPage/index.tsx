@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import MapComponent from '../../components/Map';
-import MenuBar from '../../components/MenuBar';
-import { MapContext } from '../../config';
+import MapComponent from '@components/Map';
+import MenuBar from '@components/MenuBar';
+import { MapContext } from '@/config';
 
 import './styles.css';
 

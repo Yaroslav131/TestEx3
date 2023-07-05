@@ -1,5 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@store/*": ["src/store/*"],
+      "@api/*": ["src/api/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@customTypes/*": ["src/types/*"],
+      "@assets/*": ["src/assets/*"],
+      "@/*": ["src/*"]
+    },
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -21,7 +31,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
   },
   "include": [
     "src"

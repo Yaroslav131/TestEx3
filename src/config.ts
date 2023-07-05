@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import images from "./images";
+
 interface ISeachOption {
   tag: string;
   description: string;
@@ -24,6 +25,7 @@ export const seachOptions: ISeachOption[] = [
   { tag: 'historic=architectural', description: 'Архитектура' },
   { tag: 'stripclub', description: '18+' },
 ];
+
 interface IGeoIcon {
   tag: string;
   optionIcon: string;

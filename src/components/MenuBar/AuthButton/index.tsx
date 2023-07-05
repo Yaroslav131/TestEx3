@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import signOutImg from '../../../assets/images/singOut.svg';
-import { auth, googleProvider } from '../../../firebase';
-import { addOrUpdateUser } from '../../../api/firebaseApi';
+import signOutImg from '@assets/images/singOut.svg';
+import { auth, googleProvider } from '@/firebase';
+import { addOrUpdateUser } from '@api/firebaseApi';
 
 import './styles.css';
-import { UserAppeals } from '../../../config';
+import { UserAppeals } from '@/config';
 
 interface Iprops {
     handleCloseSlideMenu: () => void;

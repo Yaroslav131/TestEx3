@@ -1,9 +1,7 @@
 import { toast } from 'react-toastify';
-import { db, auth } from '../firebase';
+import { db, auth } from '@/firebase';
 import firebase from 'firebase/compat/app';
-import { UserAppeals } from '../config';
-
-
+import { UserAppeals } from '@/config';
 
 interface User {
     id: string;

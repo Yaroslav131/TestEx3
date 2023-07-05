@@ -1,7 +1,7 @@
-import { addTag, deleteTag } from '../../store/slices/tagsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { addTag, deleteTag } from '@store/slices/tagsSlice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import SearchMenuOption from './SearchMenuOption';
-import { geoIcons, seachOptions } from '../../config';
+import { geoIcons, seachOptions } from '@/config';
 
 import './styles.css';
 

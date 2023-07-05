@@ -1,13 +1,13 @@
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { YMaps } from '@pbe/react-yandex-maps';
 
-import store from '../src/store/store';
+import store from '@store/store';
 import MainPage from './pages/mainPage';
 
 import './globalStyles.css';
 import ErrorBoundary from './components/ErrorBoundary';
-import { YMaps } from '@pbe/react-yandex-maps';
 
 const App = () => {
   return (

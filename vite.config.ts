@@ -6,11 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src/"),
-      components: `${path.resolve(__dirname, "./src/components/")}`,
-      store: `${path.resolve(__dirname, "./src/store/")}`,
-      pages: path.resolve(__dirname, "./src/pages/"),
-      assets: `${path.resolve(__dirname, "./src/assets/")}`,
+      '@components': '/src/components',
+      '@store': '/src/store',
+      '@api': '/src/api',
+      '@helpers': '/src/helpers',
+      '@customTypes': '/src/types',
+      '@assets': '/src/assets',
+      '@':'/src'
     },
   },
 });

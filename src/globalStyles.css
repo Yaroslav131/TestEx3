@@ -3,6 +3,7 @@
   src: url('/src/assets/fonts/Mont/Mont-Regular.woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +11,7 @@
   src: url('/src/assets/fonts/Mont/Mont-Bold.woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 h1,

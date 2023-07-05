@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../../store/hooks';
-import { addUserSavedId, getCurrentUserSavedId, removeUserSavedId } from '../../api/firebaseApi';
+import { useAppSelector } from '@store/hooks';
+import { addUserSavedId, getCurrentUserSavedId, removeUserSavedId } from '@api/firebaseApi';
 
 import './styles.css';
 import ChosenObject from './ChosenObject';

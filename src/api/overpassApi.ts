@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
-import IGeoObject from '../types/IGeoObject';
-import { UserAppeals, geoIcons, timeoutDuration } from '../config';
+import IGeoObject from '@customTypes/IGeoObject';
+import { UserAppeals, geoIcons, timeoutDuration } from '@/config';
 
 export async function getGeoObjectByName(
   name: string,

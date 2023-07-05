@@ -1,15 +1,14 @@
 import { useState } from "react"
 
-import SearchMenuOptions from '../SearchMenuOptions';
-import InputRadius from '../RadiusInput';
-import search from '../../assets/images/search.svg';
-import SearchInput from '../SearchInput';
-import { getGeoObjectByTags, getGeoObjectByName } from '../../api/overpassApi';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
-import { hideLoading, showLoading } from '../../store/slices/loadingSlice';
-import { resetTag } from '../../store/slices/tagsSlice';
-import { userSearchTag } from '../../config';
+import SearchMenuOptions from '@components/SearchMenuOptions';
+import InputRadius from '@components/RadiusInput';
+import search from '@assets/images/search.svg';
+import SearchInput from '@components/SearchInput';
+import { getGeoObjectByTags, getGeoObjectByName } from '@api/overpassApi';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { setGeoObjects } from '@store/slices/geoObjectsSlice';
+import { hideLoading,showLoading } from '@store/slices/loadingSlice';
+import { userSearchTag } from '@/config';
 
 import './styles.css';
 
@@ -25,18 +24,13 @@ const SearchMenu = () => {
     setObjectName(name)
   }
 
-  function handleResetObjectName()
-  {
-    setObjectName('')
-  }
-
   function makeMapObjectRequest() {
     if (objectName != '') {
       dispatch(showLoading())
 
       getGeoObjectByName(objectName, userSearchTag).then((result) => {
         dispatch(setGeoObjects(result));
-        dispatch(resetTag())
+
         dispatch(hideLoading())
       });
     } else if (tags.length != 0) {
@@ -55,9 +49,9 @@ const SearchMenu = () => {
   return (
     <div className="search-menu">
       <div>
-        <SearchInput handleSetObjectName={handleSetObjectName} objectName={objectName} />
+        <SearchInput handleSetObjectName={handleSetObjectName} />
         <h2 className="option-title">Искать:</h2>
-        <SearchMenuOptions handleResetObjectName={handleResetObjectName}/>
+        <SearchMenuOptions />
         <h2 className="option-title">В радиусе:</h2>
         <InputRadius />
       </div>

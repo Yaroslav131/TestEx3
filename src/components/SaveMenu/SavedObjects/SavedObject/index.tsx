@@ -1,11 +1,11 @@
-import play from '../../../../assets/images/play.svg';
-import activeSave from '../../../../assets/images/activeSave.svg';
-import { useAppDispatch } from '../../../../store/hooks';
-import { pickChosenObj } from '../../../../store/slices/isChosenObjPickedSlice';
-import palceholderImg from '../../../../assets/images/imagePlaceholder.png';
+import play from '@assets/images/play.svg';
+import activeSave from '@assets/images/activeSave.svg';
+import { useAppDispatch } from '@store/hooks';
+import { pickChosenObj } from '@store/slices/isChosenObjPickedSlice';
+import palceholderImg from '@assets/images/imagePlaceholder.png';
 
 import './style.css';
-import IGeoObject from '../../../../types/IGeoObject';
+import IGeoObject from '@customTypes/IGeoObject';
 
 interface IProps {
   savedObject: IGeoObject | null

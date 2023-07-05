@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import IGeoObject from '../../types/IGeoObject';
+import IGeoObject from '@customTypes/IGeoObject';
 
 interface GeoObjectState {
   value: IGeoObject[];

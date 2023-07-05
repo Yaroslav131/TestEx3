@@ -2,10 +2,10 @@ import { Map, Circle, Placemark } from '@pbe/react-yandex-maps';
 import { useEffect, useContext, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import CustomPlacemark from '../GeoMarker';
-import { getGeoObjectByTags } from '../../api/overpassApi';
-import { getUserGeolocation } from '../../helpers/geolocationFunctions';
-import IGeoObject from '../../types/IGeoObject';
+import CustomPlacemark from '@components/GeoMarker';
+import { getGeoObjectByTags } from '@api/overpassApi';
+import { getUserGeolocation } from '@helpers/geolocationFunctions';
+import IGeoObject from '@customTypes/IGeoObject';
 import {
   attractionsTags,
   userPlacemarkOptions,
@@ -13,13 +13,13 @@ import {
   defaulteRadius,
   MapContext,
   UserAppeals
-} from '../../config';
-import { setCoords } from '../../store/slices/userCordsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setGeoObjects } from '../../store/slices/geoObjectsSlice';
-import locFilled from '../../assets/images/tablerLocationFilled.svg';
-import { showLoading, hideLoading } from '../../store/slices/loadingSlice';
-import images from '../../images';
+} from '@/config';
+import { setCoords } from '@store/slices/userCordsSlice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { setGeoObjects } from '@store/slices/geoObjectsSlice';
+import locFilled from '@assets/images/tablerLocationFilled.svg';
+import { showLoading, hideLoading } from '@store/slices/loadingSlice';
+import images from '@/images';
 
 import './styles.css';
 
@@ -125,7 +125,7 @@ const MapComponent = () => {
           onClick={updateMap}
           className={isLoading ? 'location-button disabled-button' : 'location-button'}
         >
-          <img src={locFilled} alt="geolocation" />
+          <img src={locFilled} className='loc-img' alt="geolocation" />
         </button>
       </Map>
     </div>

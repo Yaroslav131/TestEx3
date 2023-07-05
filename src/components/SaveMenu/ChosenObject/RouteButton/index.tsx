@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import IGeoObject from '../../../../types/IGeoObject';
-import wayIcon from '../../../../assets/images/way.svg';
+import IGeoObject from '@customTypes/IGeoObject';
+import wayIcon from '@assets/images/way.svg';
 import { useYMaps } from "@pbe/react-yandex-maps";
-import { MapContext } from '../../../../config';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { closeRoutePlace, pickRoutePlace } from '../../../../store/slices/isPickedRoutePlaceSlice';
+import { MapContext } from '@/config';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { closeRoutePlace, pickRoutePlace } from '@store/slices/isPickedRoutePlaceSlice';
 
 import './sytles.css'
 
