@@ -56,6 +56,11 @@
     animation: spin 1s linear infinite;
 }
 
+.loc-img {
+    width: 25px;
+    height: 25px;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

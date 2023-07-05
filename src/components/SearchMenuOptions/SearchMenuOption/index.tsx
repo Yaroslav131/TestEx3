@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import './styles.css';
-import { useAppSelector } from '../../../store/hooks';
+import { useAppSelector } from '@store/hooks';
 
 interface Iprops {
   theme: string;

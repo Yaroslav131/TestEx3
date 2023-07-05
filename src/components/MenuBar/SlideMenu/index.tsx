@@ -1,6 +1,6 @@
-import IActiveButtons from '../../../types/IActiveButtons';
-import SaveMenu from '../../SaveMenu';
-import SearchMenu from '../../SearchMenu';
+import IActiveButtons from '@customTypes/IActiveButtons';
+import SaveMenu from '@components/SaveMenu';
+import SearchMenu from '@components/SearchMenu';
 
 import './styles.css';
 

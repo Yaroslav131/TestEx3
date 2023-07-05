@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getGeoObjectById } from '../../../api/overpassApi';
+import { getGeoObjectById } from '@api/overpassApi';
 
 import './styles.css';
 import SavedObjectSkeleton from './Skeleton';

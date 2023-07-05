@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 
-import activeSaveIcon from '../../../assets/images/activeSave.svg';
-import palceholderImg from '../../../assets/images/imagePlaceholder.png';
-import play from '../../../assets/images/play.svg';
-import { useAppDispatch } from '../../../store/hooks';
-import { closeChosenObj } from '../../../store/slices/isChosenObjPickedSlice';
-import IGeoObject from '../../../types/IGeoObject';
-import { getGeoObjectById } from '../../../api/overpassApi';
-import { useAppSelector } from '../../../store/hooks';
+import activeSaveIcon from '@assets/images/activeSave.svg';
+import palceholderImg from '@assets/images/imagePlaceholder.png';
+import play from '@assets/images/play.svg';
+import { useAppDispatch } from '@store/hooks';
+import { closeChosenObj } from '@store/slices/isChosenObjPickedSlice';
+import IGeoObject from '@customTypes/IGeoObject';
+import { getGeoObjectById } from '@api/overpassApi';
+import { useAppSelector } from '@store/hooks';
 
 import './styles.css';
 import ChosenObjectSkeleton from "./Skeleton";

@@ -1,6 +1,6 @@
 import './styles.css';
-import { setByAmount } from '../../store/slices/radiusSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setByAmount } from '@store/slices/radiusSlice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const InputRadius = () => {
   const dispatch = useAppDispatch();

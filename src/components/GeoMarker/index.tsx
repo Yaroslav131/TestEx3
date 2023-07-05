@@ -1,8 +1,8 @@
 import React from 'react';
 import { Placemark } from '@pbe/react-yandex-maps';
 
-import { useAppDispatch } from '../../store/hooks';
-import { pickChosenObj } from '../../store/slices/isChosenObjPickedSlice';
+import { useAppDispatch } from '@store/hooks';
+import { pickChosenObj } from '@store/slices/isChosenObjPickedSlice';
 
 interface GeoMarkerProps {
   objectId: number;
